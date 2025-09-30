@@ -1,11 +1,85 @@
 <!doctype html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
-      th:replace="base :: content">
-<head>
-    <title>메인 페이지</title>
-</head>
-<body>
-<h2>메인 콘텐츠</h2>
-<p>여기에 내용 작성</p>
-</body>
+      th:replace="~{base :: content}">
+
+<div>
+
+    <!-- 광고 배너 -->
+    <section class="banner">
+        <div class="banner-container">
+            <div class="banner-slide active">
+                <img src="/images/banner1.jpg" alt="광고1">
+            </div>
+            <div class="banner-slide">
+                <img src="/images/banner2.jpg" alt="광고2">
+            </div>
+            <div class="banner-slide">
+                <img src="/images/banner3.jpg" alt="광고3">
+            </div>
+        </div>
+        <div class="banner-controls">
+            <button class="prev">⟨</button>
+            <button class="next">⟩</button>
+        </div>
+    </section>
+
+    <!-- 게임 섹션 -->
+    <section class="game-section">
+        <h2>인기 게임</h2>
+        <div class="game-list">
+            <div class="game-card">
+                <img src="/images/genshin.jpg" alt="원신">
+                <h3>원신</h3>
+                <p>오픈월드 액션 RPG</p>
+            </div>
+            <div class="game-card">
+                <img src="/images/limbus.jpg" alt="림버스">
+                <h3>림버스 컴퍼니</h3>
+                <p>턴제 RPG & 로그라이크</p>
+            </div>
+            <div class="game-card">
+                <img src="/images/hsr.jpg" alt="스타레일">
+                <h3>스타레일</h3>
+                <p>턴제 전략 RPG</p>
+            </div>
+            <div class="game-card">
+                <img src="/images/reverse.jpg" alt="리버스">
+                <h3>리버스1999</h3>
+                <p>시간여행 판타지 RPG</p>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<!-- 메인 페이지 전용 스크립트 -->
+<script>
+    let currentIndex = 0;
+    const slides = document.querySelectorAll(".banner-slide");
+    const prev = document.querySelector(".prev");
+    const next = document.querySelector(".next");
+
+    function showSlide(index) {
+      slides.forEach((slide, i) => {
+        slide.classList.toggle("active", i === index);
+      });
+    }
+
+    function nextSlide() {
+        currentIndex = (currentIndex + 1) % slides.length;
+        showSlide(currentIndex);
+    }
+
+    function prevSlide() {
+        currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+        showSlide(currentIndex);
+    }
+
+    // 버튼 액션
+    next.addEventListener("click", nextSlide);
+    prev.addEventListener("click", prevSlide);
+
+    // 자동 슬라이드
+    setInterval(nextSlide, 5000);
+</script>
 </html>
