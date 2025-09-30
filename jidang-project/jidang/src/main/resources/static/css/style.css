@@ -12,6 +12,48 @@ body {
   padding: 1rem;
 }
 
-header, footer {
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background: #121212;
+    border-bottom: 1px solid #333;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.navbar a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.nav-search-form {
+    display: flex;
+    margin-left: 20px;
+}
+
+.nav-search-form input {
+    padding: 5px 10px;
+    border-radius: 5px 0 0 5px;
+    border: none;
+    outline: none;
+}
+
+.nav-search-form button {
+    padding: 5px 10px;
+    border-radius: 0 5px 5px 0;
+    border: none;
+    background: #ff5722;
+    color: #fff;
+    cursor: pointer;
+}
+
+footer {
   margin-bottom: 1rem;
 }

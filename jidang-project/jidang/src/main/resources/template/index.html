@@ -1,23 +1,47 @@
-<!-- 기본 html 구조, 상속할 기초적인 내용만 구현 -->
-
 <!doctype html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
-    <title th:replace="${title}">사이트 제목</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${pageTitle} ?: 'Jidang'">Jidang</title>
+
+    <!-- CSS -->
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-<header>
-    <h1>사이트 제목</h1>
+
+<header class="site-header">
+    <div class="logo">
+        <a href="/">Jidang</a>
+    </div>
+
+    <nav class="navbar">
+        <ul class="nav-links">
+            <li><a href="/" th:classappend="${activePage == 'home'} ? 'active'">홈</a></li>
+            <li><a href="/news" th:classappend="${activePage == 'news'} ? 'active'">뉴스</a></li>
+            <li><a href="/guides" th:classappend="${activePage == 'guides'} ? 'active'">공략</a></li>
+            <li><a href="/community" th:classappend="${activePage == 'community'} ? 'active'">커뮤니티</a></li>
+            <li><a href="/profile" th:classappend="${activePage == 'profile'} ? 'active'">내정보</a></li>
+        </ul>
+
+        <!-- 검색창 -->
+        <form class="nav-search-form" method="get" th:action="@{/search}">
+            <input type="text" name="q" placeholder="검색...">
+            <button type="submit">&#128269;</button>
+        </form>
+    </nav>
 </header>
 
-<main>
-    <div th:fragment="content"></div>
+<main th:fragment="content">
+    <!-- 각 페이지 본문이 들어올 영역 -->
 </main>
 
-<footer>
-    <p>&copy; 2025 MySite</p>
+<footer class="site-footer">
+    <p>&copy; 2025 Jidang. All Rights Reserved.</p>
 </footer>
+
+<!-- 페이지별 JS 추가 가능 -->
+<th:block th:replace="${scripts}"></th:block>
+
 </body>
 </html>
