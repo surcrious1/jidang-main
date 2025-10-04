@@ -1,19 +1,13 @@
-package com.example.controller;
+package com.jidang.controller;
 
-import java.io.IOException;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 
-@WebServlet("/")  // 메인 주소로 매핑
-public class MainController extends HttpServlet {
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+@Controller
+public class MainController {
 
-        // index.jsp로 포워딩
-        request.getRequestDispatcher("/index.jsp").forward(request, response);
+    @GetMapping("/")
+    public String main() {
+        return "index"; // src/main/resources/templates/index.html을 렌더링
     }
 }
