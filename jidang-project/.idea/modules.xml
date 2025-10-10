@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/com.example.jidang-project.main.iml" filepath="$PROJECT_DIR$/.idea/modules/com.example.jidang-project.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/jidang-project.iml" filepath="$PROJECT_DIR$/.idea/jidang-project.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/jidang.main.iml" filepath="$PROJECT_DIR$/.idea/modules/jidang.main.iml" />
     </modules>
   </component>
 </project>
