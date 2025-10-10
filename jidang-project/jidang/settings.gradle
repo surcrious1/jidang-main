@@ -1,1 +1,9 @@
-rootProject.name = 'jidang'
+pluginManagement {
+    repositories {
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
+rootProject.name = 'jidang-project'
+include 'jidang'

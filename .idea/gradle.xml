@@ -8,6 +8,7 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/jidang-project/jidang" />
+            <option value="$PROJECT_DIR$/jidang-project/jidang/jidang" />
           </set>
         </option>
       </GradleProjectSettings>
