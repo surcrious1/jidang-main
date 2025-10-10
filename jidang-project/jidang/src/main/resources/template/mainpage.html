@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{index}">
+<head>
+    <meta charset="UTF-8">
+    <title layout:fragment="title">main page</title>
+</head>
+<main layout:fragment="content">
+    <div>
+
+        <!-- 광고 배너 -->
+        <section class="banner">
+            <div class="banner-container">
+                <div class="banner-slide active">
+                    <a href = "https://www.youtube.com/watch?v=kKGVSGuaQbk">
+                        <img src="/images/플린스배너.webp" alt="광고1">
+                    </a>
+                </div>
+                <div class="banner-slide">
+                    <a href = "https://www.youtube.com/watch?v=HC2weIpKDq8">
+                        <img src="/images/시협회파우웅.jpeg" alt="광고2">
+                    </a>
+                </div>
+                <div class="banner-slide">
+                    <a href = "https://www.youtube.com/watch?v=O3s8Ejek1r4">
+                        <img src="/images/슈나장비틱죽어.jpeg" alt="광고3">
+                    </a>
+                </div>
+            </div>
+            <div class="banner-controls">
+                <button class="prev">⟨</button>
+                <button class="next">⟩</button>
+            </div>
+        </section>
+
+        <!-- 게임 섹션 -->
+        <section class="game-section">
+            <h2>인기 게임</h2>
+            <div class="game-list">
+                <div class="game-card">
+                    <img src="/images/키릴-추도미르비치-플린스.webp" alt="원신">
+                    <h1>원신</h1>
+                    <p>플린스 결혼해줘</p>
+                </div>
+                <div class="game-card">
+                    <img src="/images/마법소녀돈키.jpeg" alt="림버스">
+                    <h2>림버스 컴퍼니</h2>
+                    <p>관리자 나리~~~!!!!!!</p>
+                </div>
+                <div class="game-card">
+                    <img src="/images/스타레일그긴거.jpeg" alt="스타레일">
+                    <h3>스타레일</h3>
+                    <p>붕괴 오마주 게임</p>
+                </div>
+                <div class="game-card">
+                    <img src="/images/리버스버틴.jpeg" alt="리버스">
+                    <h4>리버스1999</h4>
+                    <p>폭풍우 후에엥</p>
+                </div>
+                <div class="game-card">
+                    <img src="/images/대전차지뢰.jpeg" alt="블아">
+                    <h5>블루아카이브</h5>
+                    <p>몰?루</p>
+                </div>
+            </div>
+        </section>
+
+    </div>
+</main>
+
+<!-- 메인 페이지 전용 스크립트 -->
+<th:block layout:fragment="scripts">
+    <script>
+        let currentIndex = 0;
+        const slides = document.querySelectorAll(".banner-slide");
+        const prev = document.querySelector(".prev");
+        const next = document.querySelector(".next");
+
+        function showSlide(index) {
+          slides.forEach((slide, i) => {
+            slide.classList.toggle("active", i === index);
+          });
+        }
+
+        function nextSlide() {
+            currentIndex = (currentIndex + 1) % slides.length;
+            showSlide(currentIndex);
+        }
+
+        function prevSlide() {
+            currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+            showSlide(currentIndex);
+        }
+
+        // 버튼 액션
+        next.addEventListener("click", nextSlide);
+        prev.addEventListener("click", prevSlide);
+
+        // 자동 슬라이드
+        setInterval(nextSlide, 5000);
+    </script>
+</th:block>
+
+</html>
