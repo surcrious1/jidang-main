@@ -32,8 +32,10 @@
     </nav>
 </header>
 
-<main th:fragment="content">
-    <!-- 각 페이지 본문이 들어올 영역 -->
+<!-- 각 페이지 본문이 들어올 영역 -->
+<main th:fragment="layout(content)">
+    <div th:replace="${content}"></div>
+    <th:block th:replace="${scripts}"></th:block>
 </main>
 
 <footer class="site-footer">
