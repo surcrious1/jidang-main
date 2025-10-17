@@ -12,6 +12,8 @@ import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
 
+import com.jidang.user.SiteUser;
+
 @Getter
 @Setter
 @Entity
@@ -27,4 +29,7 @@ public class Comments {
 
     @ManyToOne
     private Post post;
+
+    @ManyToOne
+    private SiteUser author; //작성자
 }

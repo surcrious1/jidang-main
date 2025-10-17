@@ -41,6 +41,9 @@ dependencies {
 
 	//객체 유효성 검증(Validation)을 쉽게 해주는 표준 API
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+	//폼 클래스 : 사용자가 입력한 데이터를 검증
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
 }
 
 tasks.named('test') {
