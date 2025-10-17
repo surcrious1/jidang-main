@@ -26,13 +26,13 @@ public class UserController {
     @PostMapping("/signup")  //POST로 요청되면 회원 가입을 진행
     public String signup(@Valid UserCreateForm userCreateForm, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "login";
+            return "signup_form";
         }
 
         if (!userCreateForm.getPassword1().equals(userCreateForm.getPassword2())) {
             bindingResult.rejectValue("password2", "passwordInCorrect",
                     "2개의 패스워드가 일치하지 않습니다.");
-            return "login";
+            return "signup_form";
         }
 
         //중복 알림 메세지 출력
@@ -49,6 +49,12 @@ public class UserController {
             return "signup_form";
         }
 
+
         return "redirect:/";
+    }
+
+    @GetMapping("/login")
+    public String login() {
+        return "login";
     }
 }

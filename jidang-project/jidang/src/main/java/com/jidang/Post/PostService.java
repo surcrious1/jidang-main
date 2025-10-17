@@ -9,6 +9,10 @@ import lombok.RequiredArgsConstructor;
 import java.util.Optional;
 import com.jidang.DataNotFoundException;
 
+import java.time.LocalDateTime;
+
+import com.jidang.user.SiteUser;
+
 @RequiredArgsConstructor
 @Service
 public class PostService {
@@ -25,5 +29,14 @@ public class PostService {
         } else {
             throw new DataNotFoundException("post not found");
         }
+    }
+
+    public void create(String subject, String content, SiteUser user) {
+        Post q = new Post();
+        q.setSubject(subject);
+        q.setContent(content);
+        q.setCreateDate(LocalDateTime.now());
+        q.setAuthor(user);
+        this.postRepository.save(q);
     }
 }
