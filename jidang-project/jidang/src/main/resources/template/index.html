@@ -29,6 +29,11 @@
             <input type="text" name="q" placeholder="검색...">
             <button type="submit">&#128269;</button>
         </form>
+
+        <!--로그인하기/프로필 띄우기-->
+        <a th:href="@{/login}">
+            <button type="button">로그인</button>
+        </a>
     </nav>
 </header>
 
@@ -42,7 +47,7 @@
     <p>&copy; 2025 Jidang. All Rights Reserved.</p>
 </footer>
 
-<!-- 페이지별 JS 추가 가능 -->
+<!-- 페이지별 JS 추가 가능, jsp로 따로 뺄 가능성 농후 -->
 <th:block th:replace="${scripts}"></th:block>
 
 </body>
