@@ -47,4 +47,7 @@ public class Post {
     @ManyToOne
     @JoinColumn(name = "game_id") //game_id는 Game의 id랑 연결
     private Game game; //게임 종류
+
+    //수정 시간
+    private LocalDateTime modifyDate;
 }

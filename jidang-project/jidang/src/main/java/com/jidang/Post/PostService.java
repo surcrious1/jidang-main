@@ -54,4 +54,16 @@ public class PostService {
         return game.getPosts();
     }
 
+    public void modify(Post post, String subject, String content) {
+        post.setSubject(subject);
+        post.setContent(content);
+        post.setModifyDate(LocalDateTime.now());
+        this.postRepository.save(post);
+    }
+
+    //게시물 삭제
+    public void delete(Post post) {
+        this.postRepository.delete(post);
+    }
+
 }
