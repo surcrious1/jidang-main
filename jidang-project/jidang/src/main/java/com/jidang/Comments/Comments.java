@@ -32,4 +32,7 @@ public class Comments {
 
     @ManyToOne
     private SiteUser author; //작성자
+
+    //수정 시간
+    private LocalDateTime modifyDate;
 }
