@@ -15,6 +15,8 @@ import jakarta.persistence.OneToMany;
 
 import jakarta.persistence.ManyToOne;
 import com.jidang.user.SiteUser;
+import com.jidang.Game.Game;
+import jakarta.persistence.JoinColumn;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -41,4 +43,11 @@ public class Post {
     ////고려사항 : 양방향이면(siteuser에도 manytoone으로 post를 가리키면) User 객체에서 작성한 게시글 리스트 조회 가능
     @ManyToOne //여러 post가 하나의 유저를 가리킬수있도록
     private SiteUser author; //작성자
+
+    @ManyToOne
+    @JoinColumn(name = "game_id") //game_id는 Game의 id랑 연결
+    private Game game; //게임 종류
+
+    //수정 시간
+    private LocalDateTime modifyDate;
 }
