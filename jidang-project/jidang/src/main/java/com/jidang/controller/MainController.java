@@ -8,6 +8,6 @@ public class MainController {
 
     @GetMapping("/")
     public String main() {
-        return "index"; // src/main/resources/templates/index.html을 렌더링
+        return "mainpage"; // src/main/resources/templates/mainpage.html을 렌더링
     }
 }
