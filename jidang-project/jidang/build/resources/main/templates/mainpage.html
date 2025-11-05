@@ -1,16 +1,14 @@
 <!doctype html>
-<html lang="ko"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{index}">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{index :: layout(~{::content}, ~{::scripts})}">
+
 <head>
     <meta charset="UTF-8">
-    <title layout:fragment="title">main page</title>
+    <title>main page</title>
 </head>
-<body>
-<main layout:fragment="content">
+
+<th:block th:fragment="content">
     <div>
-        <!-- 광고 배너 -->
         <section class="banner">
             <div class="banner-container">
                 <div class="banner-slide active">
@@ -35,7 +33,6 @@
             </div>
         </section>
 
-        <!-- 게임 섹션 -->
         <section class="game-section">
             <h2>인기 게임</h2>
             <div class="game-list">
@@ -67,11 +64,11 @@
             </div>
         </section>
     </div>
-</main>
+</th:block>
 
-<!-- 메인 페이지 전용 스크립트 -->
-<th:block layout:fragment="scripts">
+<th:block th:fragment="scripts">
     <script>
+        // (스크립트 내용은 동일)
         let currentIndex = 0;
         const slides = document.querySelectorAll(".banner-slide");
         const prev = document.querySelector(".prev");
@@ -82,26 +79,16 @@
             slide.classList.toggle("active", i === index);
           });
         }
-
         function nextSlide() {
             currentIndex = (currentIndex + 1) % slides.length;
             showSlide(currentIndex);
         }
-
         function prevSlide() {
             currentIndex = (currentIndex - 1 + slides.length) % slides.length;
             showSlide(currentIndex);
         }
-
-        // 버튼 액션
         next.addEventListener("click", nextSlide);
         prev.addEventListener("click", prevSlide);
-
-        // 자동 슬라이드
         setInterval(nextSlide, 5000);
     </script>
 </th:block>
-</body>
-
-
-</html>
