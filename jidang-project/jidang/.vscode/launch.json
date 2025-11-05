@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-JidangApplication<jidang>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.jidang.JidangApplication",
+            "projectName": "jidang",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
