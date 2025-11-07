@@ -52,7 +52,7 @@ public class PostController {
         return "searchlist";
     }
 
-    @ResponseBody //아직 질문등록 html없음
+    //@ResponseBody //아직 질문등록 html없음
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/create")
     public String postCreate(PostForm postForm) {
@@ -61,7 +61,7 @@ public class PostController {
 
     
     //게시물 생성
-    @ResponseBody //아직 Post_form html없음
+    //@ResponseBody //아직 Post_form html없음
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/create")
     public String postCreate(@Valid PostForm postForm, BindingResult bindingResult, Principal principal) {
@@ -112,5 +112,22 @@ public class PostController {
         }
         this.postService.delete(post);
         return "redirect:/";
+    }
+
+    //좋아요 URL 추가
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/like/{id}")
+    public String postLike(Principal principal, @PathVariable("id") Integer id) {
+        Post post = this.postService.getPost(id);
+        SiteUser user = this.userService.getUser(principal.getName());
+
+        // 이미 '좋아요'를 눌렀는지 확인
+        if (post.getLiker().contains(user)) {
+            this.postService.unlike(post, user); // 눌렀으면 취소
+        } else {
+            this.postService.like(post, user); // 안 눌렀으면 추가
+        }
+        
+        return String.format("redirect:/post/detail/%s", id);
     }
 }
