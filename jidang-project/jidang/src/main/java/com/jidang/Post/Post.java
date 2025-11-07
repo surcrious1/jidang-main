@@ -1,6 +1,7 @@
 package com.jidang.Post;
 
 import java.util.List;
+import java.util.Set;
 
 import java.time.LocalDateTime;
 
@@ -17,7 +18,8 @@ import jakarta.persistence.ManyToOne;
 import com.jidang.user.SiteUser;
 import com.jidang.Game.Game;
 import jakarta.persistence.JoinColumn;
-
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -47,6 +49,14 @@ public class Post {
     @ManyToOne
     @JoinColumn(name = "game_id") //game_id는 Game의 id랑 연결
     private Game game; //게임 종류
+
+    @ManyToMany
+    @JoinTable( // 중간 테이블 설정
+        name = "post_liker", // 테이블 이름
+        joinColumns = @JoinColumn(name = "post_id"), // Post의 PK
+        inverseJoinColumns = @JoinColumn(name = "site_user_id") // SiteUser의 PK
+    )
+    private Set<SiteUser> liker; // '좋아요'를 누른 사용자 목록
 
     //수정 시간
     private LocalDateTime modifyDate;
