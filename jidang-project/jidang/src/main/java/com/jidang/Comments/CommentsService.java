@@ -17,12 +17,19 @@ public class CommentsService {
     private final CommentsRepository commentsRepository;
 
 
-    public void create(Post post, String content,SiteUser author) {
+    public void create(Post post, String content,SiteUser author, Integer parentId) {
         Comments comments = new Comments();
         comments.setContent(content);
         comments.setCreateDate(LocalDateTime.now());
         comments.setPost(post);
         comments.setAuthor(author);
+
+        if (parentId != null) {
+            // parentId로 부모 댓글을 조회
+            Comments parent = this.getcomments(parentId); 
+            // DataNotFoundException은 getcomments가 이미 처리함
+            comments.setParent(parent);
+        }
         this.commentsRepository.save(comments);
     }
 
@@ -46,5 +53,17 @@ public class CommentsService {
     //답변 삭제
     public void delete(Comments comments) {
         this.commentsRepository.delete(comments);
+    }
+
+    // 좋아요 추가 메서드
+    public void like(Comments comments, SiteUser user) {
+        comments.getLiker().add(user);
+        this.commentsRepository.save(comments);
+    }
+
+    // 좋아요 취소 메서드
+    public void unlike(Comments comments, SiteUser user) {
+        comments.getLiker().remove(user);
+        this.commentsRepository.save(comments);
     }
 }

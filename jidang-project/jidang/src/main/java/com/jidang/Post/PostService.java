@@ -66,4 +66,15 @@ public class PostService {
         this.postRepository.delete(post);
     }
 
+    //좋아요 추가
+    public void like(Post post, SiteUser user) {
+        post.getLiker().add(user); // Set에 사용자 추가
+        this.postRepository.save(post);
+    }
+    
+    //좋아요 취소 
+    public void unlike(Post post, SiteUser user) {
+        post.getLiker().remove(user); // Set에서 사용자 제거
+        this.postRepository.save(post);
+    }
 }

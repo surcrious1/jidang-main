@@ -37,7 +37,8 @@ public class CommentsController {
     @PostMapping("/create/{id}")
     public String createComments(Model model, @PathVariable("id") Integer id,
                                  @Valid CommentsForm commentsForm, BindingResult bindingResult,
-                                 @RequestParam(value="content") String content,Principal principal) {
+                                 // @RequestParam(value="content") String content, 
+                                 @RequestParam(value="parentId", required=false) Integer parentId, Principal principal) {
         Post post = this.postService.getPost(id);
         if (bindingResult.hasErrors()) {
             model.addAttribute("post", post);
@@ -45,7 +46,7 @@ public class CommentsController {
         }
         SiteUser siteUser = this.userService.getUser(principal.getName());
 
-        this.commentsService.create(post, commentsForm.getContent(),siteUser); //답변을 저장한다.
+        this.commentsService.create(post, commentsForm.getContent(),siteUser, parentId); //답변을 저장한다.
         return String.format("redirect:/post/detail/%s", id);
     }
 
@@ -75,7 +76,7 @@ public class CommentsController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
         }
         this.commentsService.modify(comments, commentsForm.getContent());
-        return String.format("redirect:/question/detail/%s", comments.getPost().getId());
+        return String.format("redirect:/post/detail/%s", comments.getPost().getId());
     }
 
     //답변 삭제
@@ -87,6 +88,23 @@ public class CommentsController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제권한이 없습니다.");
         }
         this.commentsService.delete(comments);
-        return String.format("redirect:/question/detail/%s", comments.getPost().getId());
+        return String.format("redirect:/post/detail/%s", comments.getPost().getId());
+    }
+
+    //좋아요 URL 추가
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/like/{id}")
+    public String commentsLike(Principal principal, @PathVariable("id") Integer id) {
+        Comments comments = this.commentsService.getcomments(id);
+        SiteUser user = this.userService.getUser(principal.getName());
+
+        // 이미 '좋아요'를 눌렀는지 확인
+        if (comments.getLiker().contains(user)) {
+            this.commentsService.unlike(comments, user); // 눌렀으면 취소
+        } else {
+            this.commentsService.like(comments, user); // 안 눌렀으면 추가
+        }
+        
+        return String.format("redirect:/post/detail/%s", comments.getPost().getId());
     }
 }
