@@ -1,12 +1,16 @@
 <!doctype html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" th:fragment="layout(content, scripts)">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" th:fragment="layout(content, scripts, css)">
 <head>
     <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title th:text="${pageTitle} ?: 'Jidang'">Jidang</title>
 
-    <!-- CSS -->
+    <!--기본 CSS-->
     <link rel="stylesheet" th:href="@{/css/style.css}">
+    <!--페이지별 추가 CSS-->
+    <th:block th:replace="${css}"></th:block>
 </head>
 <body>
 
@@ -31,9 +35,7 @@
         </form>
 
         <!--로그인하기/프로필 띄우기-->
-        <a th:href="@{/user/login}">
-            <button type="button">로그인</button>
-        </a>
+        <a th:href="@{/user/login}" class="login-btn">로그인</a>
     </nav>
 </header>
 
@@ -47,7 +49,7 @@
     <p>&copy; 2025 Jidang. All Rights Reserved.</p>
 </footer>
 
-<!-- 페이지별 JS 추가 가능, jsp로 따로 뺄 가능성 농후 -->
+<!-- 페이지별 JS 추가 가능, community 버전의 한계로 js 분리 안됨 -->
 <!--<th:block th:replace="${scripts}"></th:block>>-->
 
 </body>

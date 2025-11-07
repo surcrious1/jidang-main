@@ -8,6 +8,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.dao.DataIntegrityViolationException;
@@ -17,10 +22,11 @@ import org.springframework.dao.DataIntegrityViolationException;
 @RequestMapping("/user")
 public class UserController {
     private final UserService userService;
+    private final UserDetailsService userSecurityService;
 
     @GetMapping("/signup")  //URL이 GET으로 요청되면 회원 가입을 위한 템플릿을 렌더링
     public String signup(UserCreateForm userCreateForm) {
-        return "login";
+        return "signup_form";
     }
 
     @PostMapping("/signup")  //POST로 요청되면 회원 가입을 진행
@@ -49,6 +55,11 @@ public class UserController {
             return "signup_form";
         }
 
+        //회원가입 후 자동 로그인 + 메인페이지로 이동
+        UserDetails userDetails = userSecurityService.loadUserByUsername(userCreateForm.getUsername());
+        UsernamePasswordAuthenticationToken authToken =
+                new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authToken);
 
         return "redirect:/";
     }
