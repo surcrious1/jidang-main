@@ -72,11 +72,11 @@
 
 <th:block th:fragment="scripts">
     <script>
-        // (스크립트 내용은 동일)
-        let currentIndex = 0;
-        const slides = document.querySelectorAll(".banner-slide");
-        const prev = document.querySelector(".prev");
-        const next = document.querySelector(".next");
+        document.addEventListener('DOMContentLoaded', function () {
+          let currentIndex = 0;
+          const slides = document.querySelectorAll(".banner-slide");
+          const prev = document.querySelector(".prev");
+          const next = document.querySelector(".next");
 
         function showSlide(index) {
           slides.forEach((slide, i) => {
