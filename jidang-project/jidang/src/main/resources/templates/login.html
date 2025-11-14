@@ -13,10 +13,10 @@
             <label for="password">비밀번호</label>
             <input type="password" id="password" name="password" required>
 
-            <button type="submit">로그인</button>
-            <a th:href="@{/user/signup}">
-                <button type="button">회원가입</button>
-            </a>
+            <!--로그인 후 메인페이지로 넘어가는 기능 추가-->
+            <a th:href="@{/user/main}" class="login-btn">로그인</a>
+            <a th:href="@{/user/signup}" class="signup-btn">회원가입</a>
+
         </form>
     </div>
 </body>
