@@ -1,42 +1,76 @@
 <!doctype html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" th:fragment="layout(content, scripts, css)">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      th:fragment="layout(content, scripts, css)">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title th:text="${pageTitle} ?: 'Jidang'">Jidang</title>
 
     <!--기본 CSS-->
     <link rel="stylesheet" th:href="@{/css/style.css}">
+
     <!--페이지별 추가 CSS-->
     <th:block th:replace="${css}"></th:block>
 </head>
 <body>
 
 <header class="site-header">
-    <div class="logo">
-        <a href="/">Jidang</a>
+    <div class="nav-container">
+        <!-- 로고 -->
+        <div class="logo">
+            <a href="/">Jidang</a>
+        </div>
+
+        <!-- PC 메뉴 -->
+        <nav class="nav-links">
+            <a href="/" th:classappend="${activePage == 'home'} ? 'active'">홈</a>
+            <a href="/community" th:classappend="${activePage == 'community'} ? 'active'">커뮤니티</a>
+            <a href="/games" th:classappend="${activePage == 'games'} ? 'active'">게임</a>
+            <a href="/guides" th:classappend="${activePage == 'guides'} ? 'active'">공략</a>
+            <a href="/official" th:classappend="${activePage == 'official'} ? 'active'">공식</a>
+            <a href="/achievements" th:classappend="${activePage == 'achievements'} ? 'active'">업적</a>
+        </nav>
+
+        <!-- 오른쪽 액션들 -->
+        <div class="nav-actions">
+
+            <!-- 검색 버튼 -->
+            <button class="icon-btn pc-only" onclick="toggleSearch()">
+                🔍
+            </button>
+
+            <!-- 검색 인풋 -->
+            <form id="searchForm" action="/search" method="get" class="search-form hidden pc-only">
+                <input type="text" name="q" placeholder="게시글 검색..." />
+            </form>
+
+            <!-- 알림 (임시) -->
+            <button class="icon-btn">
+                🔔
+            </button>
+
+            <!-- 로그인/프로필 -->
+            <a th:href="@{/user/login}" class="icon-btn">
+                👤
+            </a>
+
+            <!-- 모바일 메뉴 버튼 -->
+            <button class="icon-btn mobile-only" onclick="toggleMobileMenu()">
+                ☰
+            </button>
+        </div>
     </div>
 
-    <nav class="navbar">
-        <ul class="nav-links">
-            <li><a href="/" th:classappend="${activePage == 'home'} ? 'active'">홈</a></li>
-            <li><a href="/news" th:classappend="${activePage == 'news'} ? 'active'">뉴스</a></li>
-            <li><a href="/guides" th:classappend="${activePage == 'guides'} ? 'active'">공략</a></li>
-            <li><a href="/community" th:classappend="${activePage == 'community'} ? 'active'">커뮤니티</a></li>
-            <li><a href="/profile" th:classappend="${activePage == 'profile'} ? 'active'">내정보</a></li>
-        </ul>
-
-        <!-- 검색창 -->
-        <form class="nav-search-form" method="get" th:action="@{/search}">
-            <input type="text" name="q" placeholder="검색...">
-            <button type="submit">&#128269;</button>
-        </form>
-
-        <!--로그인하기/프로필 띄우기-->
-        <a th:href="@{/user/login}" class="login-btn">로그인</a>
-    </nav>
+    <!-- 모바일 메뉴 -->
+    <div id="mobileMenu" class="mobile-menu hidden">
+        <a href="/" >홈</a>
+        <a href="/community">커뮤니티</a>
+        <a href="/games">게임</a>
+        <a href="/guides">공략</a>
+        <a href="/official">공식</a>
+        <a href="/achievements">업적</a>
+    </div>
 </header>
 
 <!-- 각 페이지 본문이 들어올 영역 -->
@@ -49,8 +83,20 @@
     <p>&copy; 2025 Jidang. All Rights Reserved.</p>
 </footer>
 
-<!-- 페이지별 JS 추가 가능, community 버전의 한계로 js 분리 안됨 -->
-<!--<th:block th:replace="${scripts}"></th:block>>-->
+<script th:inline="javascript">
+    document.addEventListener("DOMContentLoaded", () => {
+
+        window.toggleSearch = function () {
+            const form = document.getElementById("searchForm");
+            if (form) form.classList.toggle("hidden");
+        }
+
+        window.toggleMobileMenu = function () {
+            const menu = document.getElementById("mobileMenu");
+            if (menu) menu.classList.toggle("hidden");
+        }
+    });
+</script>
 
 </body>
 </html>

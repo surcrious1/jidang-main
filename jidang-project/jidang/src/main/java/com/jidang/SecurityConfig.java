@@ -28,7 +28,7 @@ public class SecurityConfig {
                         .requestMatchers("/**").permitAll()
                 )
                 // 개발 편의상 CSRF 비활성화 (필요시 제거 가능)
-                .csrf(csrf -> csrf.disable())
+                //.csrf(csrf -> csrf.disable()) // 비활성화 문제로 주석처리
                 //.formLogin 메서드는 스프링 시큐리티의 로그인 설정을 담당
                 .formLogin((formLogin) -> formLogin
                     .loginPage("/user/login") //로그인 페이지의 URL은 /user/login

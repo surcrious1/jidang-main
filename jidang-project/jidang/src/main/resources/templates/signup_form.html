@@ -12,7 +12,7 @@
 
         <!-- 스프링 시큐리티 CSRF 토큰 -->
         <!--현재 springsecurity가 정상적으로 토큰 생성이 되지 않아서 주석처리-->
-        <!--<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />-->
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 
         <label for="username">아이디</label>
         <input type="text" id="username" name="username" placeholder="아이디를 입력하세요" required>

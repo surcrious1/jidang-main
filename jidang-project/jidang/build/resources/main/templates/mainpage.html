@@ -3,7 +3,7 @@
       th:replace="~{index :: layout(~{::content}, ~{::scripts}, ~{::css})}">
 
 <th:block th:fragment="css">
-    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link rel="stylesheet" th:href="@{/css/mainpage.css}">
 </th:block>
 
 <th:block th:fragment="content">
@@ -66,46 +66,48 @@
 </th:block>
 
 <th:block th:fragment="scripts">
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-          let currentIndex = 0;
-          const slides = document.querySelectorAll(".banner-slide");
-          const prev = document.querySelector(".prev");
-          const next = document.querySelector(".next");
+    <script th:inline="javascript">
+        console.log("스크립트 적용 테스트");
+                document.addEventListener('DOMContentLoaded', function () {
+                  let currentIndex = 0;
+                  const slides = document.querySelectorAll(".banner-slide");
+                  const prev = document.querySelector(".prev");
+                  const next = document.querySelector(".next");
 
-          if (!slides || slides.length === 0) {
-            console.warn('No banner slides found');
-            return;
-          }
+                  if (!slides || slides.length === 0) {
+                    console.warn('No banner slides found');
+                    return;
+                  }
 
-          function showSlide(index) {
-            slides.forEach((slide, i) => {
-              slide.classList.toggle("active", i === index);
-            });
-          }
+                  function showSlide(index) {
+                    slides.forEach((slide, i) => {
+                      slide.classList.toggle("active", i === index);
+                    });
+                  }
 
-          function nextSlide() {
-            currentIndex = (currentIndex + 1) % slides.length;
-            showSlide(currentIndex);
-          }
+                  function nextSlide() {
+                    currentIndex = (currentIndex + 1) % slides.length;
+                    showSlide(currentIndex);
+                  }
 
-          function prevSlide() {
-            currentIndex = (currentIndex - 1 + slides.length) % slides.length;
-            showSlide(currentIndex);
-          }
+                  function prevSlide() {
+                    currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+                    showSlide(currentIndex);
+                  }
 
-          // 버튼이 있을 때만 이벤트 연결
-          if (next) next.addEventListener("click", nextSlide);
-          if (prev) prev.addEventListener("click", prevSlide);
+                  // 버튼이 있을 때만 이벤트 연결
+                  if (next) next.addEventListener("click", nextSlide);
+                  if (prev) prev.addEventListener("click", prevSlide);
 
-          // 자동 전환 (타이머는 필요시에만 사용)
-          const intervalId = setInterval(nextSlide, 5000);
+                  // 자동 전환 (타이머는 필요시에만 사용)
+                  const intervalId = setInterval(nextSlide, 5000);
 
-          // (선택) 마우스 오버하면 자동 슬라이드 멈추기
-          const banner = document.querySelector('.banner-container');
-          if (banner) {
-            banner.addEventListener('mouseenter', () => clearInterval(intervalId));
-          }
-        });
+                  // (선택) 마우스 오버하면 자동 슬라이드 멈추기
+                  const banner = document.querySelector('.banner-container');
+                  if (banner) {
+                    banner.addEventListener('mouseenter', () => clearInterval(intervalId));
+                  }
+                });
     </script>
 </th:block>
+</html>
