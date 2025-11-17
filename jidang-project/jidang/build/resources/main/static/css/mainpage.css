@@ -1,84 +1,94 @@
+/* 전체 배경색 */
+body {
+  background-color: #0e0e0e;
+}
+
 /*  메인 배너 전체 영역 */
 .banner {
   position: relative;
   width: 100%;
-  height: 380px;
+  height: 480px;
   overflow: hidden;
   border-radius: 16px;
   margin: 40px auto;
   max-width: 1200px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 }
 
-/*  배너 이미지 */
-.banner img {
+/* 배너 슬라이드 */
+.banner-slide {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.banner-slide.active {
+  opacity: 1;
+  z-index: 1;
+}
+
+/* 배너 이미지 */
+.banner-slide img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center center;
+  display: block;
   transition: transform 0.6s ease;
 }
 
-/*  이미지 hover 시 살짝 확대 */
-.banner:hover img {
+.banner-slide img:hover {
   transform: scale(1.05);
 }
 
-/*  배너 위의 텍스트 */
-.banner-text {
+/* 배너 컨트롤 */
+.banner-controls {
   position: absolute;
   top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  transform: translateY(-50%);
+  padding: 0 15px;
+  z-index: 10;
+}
+
+.banner-controls button {
+  pointer-events: auto;
+  background-color: #1a1a1a;
   color: white;
-  text-align: center;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
-  font-family: 'Noto Sans KR', sans-serif;
+  border: none;
+  width: 45px;
+  height: 45px;
+  font-size: 26px;
+  border-radius: 50%;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: all 0.2s ease;
 }
 
-.banner-text h1 {
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin-bottom: 10px;
+.banner-controls button:hover {
+  opacity: 1;
+  transform: scale(1.1);
 }
 
-.banner-text p {
-  font-size: 1.2rem;
-  opacity: 0.9;
-}
-
-/*  배너 안 버튼  */
-.banner-button {
-  display: inline-block;
-  margin-top: 20px;
-  padding: 12px 28px;
-  background-color: rgba(255, 255, 255, 0.15);
-  border: 2px solid #fff;
-  border-radius: 30px;
-  color: #fff;
-  font-weight: 600;
-  text-decoration: none;
-  transition: all 0.3s ease;
-}
-
-.banner-button:hover {
-  background-color: #fff;
-  color: #333;
-}
-
-
-/* 게임 섹션 전체 스타일 */
+/* 게임 섹션 */
 .game-section {
   padding: 40px 60px;
-  background-color: #f9f9f9;
+  background: none;
   text-align: center;
 }
 
 .game-section h2 {
   font-size: 2rem;
   margin-bottom: 30px;
+  color: #ffffff;
 }
 
-/* 게임 카드 리스트 (가로 정렬 + 반응형) */
 .game-list {
   display: flex;
   flex-wrap: wrap;
@@ -86,41 +96,35 @@
   gap: 30px;
 }
 
-/* 개별 카드 */
 .game-card {
-  background: white;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(6px);
   border-radius: 15px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   overflow: hidden;
-  width: 220px; /* 카드 너비 */
+  width: 220px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .game-card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.4);
 }
 
-/* 이미지 비율 일정하게 */
 .game-card img {
   width: 100%;
-  aspect-ratio: 1 / 1; /* 정사각형 비율 */
-  object-fit: cover;   /* 이미지 잘려도 비율 유지 */
-  display: block;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
 }
 
-/* 텍스트 */
-.game-card h1,
-.game-card h2,
-.game-card h3,
-.game-card h4,
-.game-card h5 {
+.game-card h1, h2, h3, h4, h5 {
   margin: 12px 0 6px;
   font-size: 1.2rem;
+  color: #ffffff;
 }
 
 .game-card p {
-  color: #555;
   font-size: 0.9rem;
   margin-bottom: 15px;
+  color: #e0e0e0;
 }
