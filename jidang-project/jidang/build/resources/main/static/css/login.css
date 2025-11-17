@@ -1,0 +1,156 @@
+/* =============================
+    기본 리셋
+============================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --background: #0e0e0e;
+  --foreground: #eaeaea;
+  --secondary: #1a1a1a;
+  --border: #333;
+  --primary: #715cff;
+  --primary-foreground: #ffffff;
+  --accent: #9b6bff;
+}
+
+/* =============================
+    페이지 전체 레이아웃
+============================= */
+/* 핵심★: body를 flex column으로 만들어 footer를 하단 고정 */
+body {
+  background: var(--background);
+  color: var(--foreground);
+
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* header는 높이만큼 자연스럽게 차지 */
+header {
+  flex-shrink: 0;
+}
+
+/* footer는 자동으로 하단에 붙음 */
+footer {
+  flex-shrink: 0;
+}
+
+/* =============================
+    중앙 컨텐츠 wrapper
+============================= */
+main {
+  flex: 1; /* ★ footer를 아래로 밀어내는 핵심 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 로그인 wrapper는 이제 min-height 필요 없음 */
+.login-page-wrapper {
+  width: 100%;
+  padding: 50px 0; /* footer와 약간 거리 두기 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* =============================
+    로그인 박스
+============================= */
+.login-box {
+  width: 33vw;
+  min-width: 350px;
+  min-height: 350px;
+
+  background: var(--secondary);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+
+  padding: 2rem;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+/* =============================
+    제목
+============================= */
+.login-title {
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 1.8rem;
+  color: var(--foreground);
+}
+
+/* =============================
+    폼 요소
+============================= */
+label {
+  display: block;
+  text-align: left;
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+input {
+  width: 100%;
+  padding: 12px 16px;
+
+  background: #0c0c0c;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 10px;
+
+  color: var(--foreground);
+  margin-bottom: 1.2rem;
+}
+
+input:focus {
+  border: 1px solid var(--accent);
+  outline: none;
+}
+
+/* =============================
+    버튼
+============================= */
+.btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 500;
+  margin-top: 4px;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+
+.btn-primary:hover {
+  background: rgba(113, 92, 255, 0.9);
+}
+
+.btn-accent {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  text-align: center;
+  background: rgba(155, 107, 255, 0.2);
+  border: 1px solid rgba(155, 107, 255, 0.3);
+  color: var(--accent);
+  margin-top: 8px;
+}
+
+.btn-accent:hover {
+  background: rgba(155, 107, 255, 0.3);
+}
