@@ -2,7 +2,6 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
-      <profile default="true" name="Default" enabled="true" />
       <profile name="Gradle Imported" enabled="true">
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
@@ -11,20 +10,12 @@
         <module name="jidang-project.main" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="jidang" target="17" />
-      <module name="jidang.main" target="17" />
-      <module name="jidang.test" target="17" />
-    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="jidang" options="-parameters" />
       <module name="jidang-project" options="-parameters" />
       <module name="jidang-project.main" options="-parameters" />
       <module name="jidang-project.test" options="-parameters" />
-      <module name="jidang.main" options="-parameters" />
-      <module name="jidang.test" options="-parameters" />
     </option>
   </component>
 </project>
