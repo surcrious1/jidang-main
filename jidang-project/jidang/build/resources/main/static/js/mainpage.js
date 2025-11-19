@@ -11,9 +11,10 @@ document.addEventListener('DOMContentLoaded', function () {
   const next = document.querySelector(".next");
 
   const banners = [
-    { src: '/images/banner/플린스배너.webp', link: 'https://www.youtube.com/watch?v=kKGVSGuaQbk' },
-    { src: '/images/banner/시협회파우웅.jpeg', link: 'https://www.youtube.com/watch?v=HC2weIpKDq8' },
-    { src: '/images/banner/Pilgrimage-of-Compassion.jpeg', link: 'https://www.youtube.com/watch?v=O3s8Ejek1r4' },
+  // 일단은 손수 업뎃, 유튜브 및 공식 페이지 링크때문에 완전 자동화는 다소 어려움
+    //{ src: '/images/banner/플린스배너.webp', link: 'https://www.youtube.com/watch?v=kKGVSGuaQbk' },
+    //{ src: '/images/banner/시협회파우웅.jpeg', link: 'https://www.youtube.com/watch?v=HC2weIpKDq8' },
+    //{ src: '/images/banner/Pilgrimage-of-Compassion.jpeg', link: 'https://www.youtube.com/watch?v=O3s8Ejek1r4' },
     { src: '/images/banner/reverseBeryl.jpeg', link: 'https://www.youtube.com/watch?v=XGFFpbFNUfo' },
     { src: '/images/banner/limbus9season.jpeg', link: 'https://x.com/LimbusCompany_B/status/1989318804606701845' },
     { src: '/images/banner/블아공식팝업.jpeg', link: 'https://x.com/KR_BlueArchive/status/1990344169240530951' },
