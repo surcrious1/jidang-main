@@ -3,6 +3,8 @@ package com.jidang.Post;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
+import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,4 +17,7 @@ public class PostForm {
 
     @NotEmpty(message="내용은 필수항목입니다.")
     private String content;
+
+    // HTML 폼에서 여러 태그 이름(String)을 List 형태로 받아올 필드입니다.
+    private List<String> tagNames;
 }

@@ -61,17 +61,44 @@ public class PostController {
 
     
     //게시물 생성
-    //@ResponseBody //아직 Post_form html없음
+    // PostController.java (수정된 postCreate 함수)
+    // @ResponseBody //아직 Post_form html없음
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/create")
     public String postCreate(@Valid PostForm postForm, BindingResult bindingResult, Principal principal) {
+
+        // 1. 유효성 검사 (기존 로직 유지)
         if (bindingResult.hasErrors()) {
-            return "Post_form";
+            return "Post_form"; // 에러 발생 시 폼으로 돌아감
         }
+
+        // 2. 작성자 정보 가져오기 (기존 로직 유지)
         SiteUser siteUser = this.userService.getUser(principal.getName());
-        this.postService.create(postForm.getSubject(), postForm.getContent(),siteUser); //질문저장
-        return "redirect:/post/list"; // 질문 저장후 질문목록으로 이동
+
+        // 3. 💡 태그 목록 유무에 따라 적절한 서비스 메서드 호출 (수정된 부분)
+        List<String> tagNames = postForm.getTagNames(); // PostForm DTO에서 태그 목록을 가져옴
+
+        if (tagNames != null && !tagNames.isEmpty()) {
+            // ✅ 태그 목록이 있을 경우: 태그를 처리하는 오버로드된 메서드 호출
+            this.postService.create(
+                    postForm.getSubject(),
+                    postForm.getContent(),
+                    siteUser,
+                    tagNames // 태그 목록을 추가 파라미터로 전달
+            );
+        } else {
+            // ✅ 태그 목록이 없을 경우: 기존의 태그 처리 로직이 없는 메서드 호출
+            this.postService.create(
+                    postForm.getSubject(),
+                    postForm.getContent(),
+                    siteUser // 기존의 3개 파라미터만 전달
+            );
+        }
+
+        // 4. 리다이렉트 (기존 로직 유지)
+        return "redirect:/post/list"; // 게시물 저장 후 목록으로 이동
     }
+
 
     //게시물 수정
     @PreAuthorize("isAuthenticated()")

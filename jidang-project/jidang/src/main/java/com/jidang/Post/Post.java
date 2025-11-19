@@ -1,6 +1,7 @@
 package com.jidang.Post;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Set;
 
 import java.time.LocalDateTime;
@@ -22,6 +23,8 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import lombok.Getter;
 import lombok.Setter;
+
+import com.jidang.PostTag.PostTag;
 
 @Getter
 @Setter
@@ -60,4 +63,19 @@ public class Post {
 
     //수정 시간
     private LocalDateTime modifyDate;
+
+
+    //** Tag랑 연결해주기 위한것(Tag로 공략, 뉴비가이드 등 게시물 종류 구별)
+    // PostTag와 1:N 관계 설정
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PostTag> postTags = new ArrayList<>();
+
+    /**
+     * 편의 메서드: PostTag 엔티티를 통해 Tag를 추가
+     * @param postTag Post와 Tag가 연결된 엔티티
+     */
+    public void addPostTag(PostTag postTag) {
+        this.postTags.add(postTag);
+        postTag.setPost(this); // 양방향 연결
+    }
 }
