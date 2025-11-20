@@ -19,7 +19,10 @@ import com.jidang.Game.GameRepository;
 import com.jidang.Tag.Tag;
 import com.jidang.Tag.TagRepository;
 import com.jidang.PostTag.PostTag;
-
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.beans.factory.annotation.Value;
+import java.util.UUID;
+import java.io.File;
 
 
 @RequiredArgsConstructor
@@ -115,5 +118,47 @@ public class PostService {
     public void unlike(Post post, SiteUser user) {
         post.getLiker().remove(user); // Set에서 사용자 제거
         this.postRepository.save(post);
+    }
+
+    @Value("${file.upload.path}")
+    private String uploadPath;
+
+    // 태그 + 파일 업로드 지원 create 메서드
+    @Transactional
+    public Post create(String subject, String content, SiteUser user, List<String> tagNames, MultipartFile file) throws Exception {
+
+        Post newPost = new Post();
+        newPost.setSubject(subject);
+        newPost.setContent(content);
+        newPost.setCreateDate(LocalDateTime.now());
+        newPost.setAuthor(user);
+
+        // *** 파일 처리 로직 시작 ***
+        if (file != null && !file.isEmpty()) {
+            // 1. 파일명 중복 방지를 위한 UUID 생성
+            UUID uuid = UUID.randomUUID();
+            String fileName = uuid + "_" + file.getOriginalFilename();
+
+            // 2. 파일 저장 (빈 껍데기 파일 생성 후 내용 전송)
+            File saveFile = new File(uploadPath, fileName);
+            file.transferTo(saveFile); // 실제 저장 실행
+
+            // 3. 엔티티에 정보 저장
+            newPost.setFilename(fileName);
+            newPost.setFilepath("/uproads/" + fileName); // WebMvcConfig에서 설정한 경로 패턴 사용
+        }
+        // *** 파일 처리 로직 끝 ***
+
+        // 기존 태그 처리 로직 (그대로 유지)
+        if (tagNames != null && !tagNames.isEmpty()) {
+            for (String tagName : tagNames) {
+                Tag tag = tagRepository.findByName(tagName)
+                        .orElseGet(() -> tagRepository.save(new Tag(tagName)));
+                PostTag postTag = PostTag.createPostTag(tag);
+                newPost.addPostTag(postTag);
+            }
+        }
+
+        return postRepository.save(newPost);
     }
 }

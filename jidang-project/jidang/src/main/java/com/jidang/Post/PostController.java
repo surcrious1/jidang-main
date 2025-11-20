@@ -29,6 +29,7 @@ import org.springframework.security.access.prepost.PreAuthorize;//로그아웃 �
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.multipart.MultipartFile;
 
 @RequestMapping("/post")
 @RequiredArgsConstructor
@@ -60,43 +61,36 @@ public class PostController {
     }
 
     
-    //게시물 생성
+    //게시물 생성 (파일 업로드 기능 추가)
     // PostController.java (수정된 postCreate 함수)
     // @ResponseBody //아직 Post_form html없음
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/create")
-    public String postCreate(@Valid PostForm postForm, BindingResult bindingResult, Principal principal) {
-
-        // 1. 유효성 검사 (기존 로직 유지)
+    public String postCreate(@Valid PostForm postForm, BindingResult bindingResult, Principal principal) throws Exception {
+        
+        // 1. 유효성 검사 (기존과 동일)
         if (bindingResult.hasErrors()) {
-            return "Post_form"; // 에러 발생 시 폼으로 돌아감
+            return "post_form"; // 템플릿 이름이 대소문자 구분되므로 post_form으로 통일 권장
         }
 
-        // 2. 작성자 정보 가져오기 (기존 로직 유지)
+        // 2. 작성자 정보 가져오기 (기존과 동일)
         SiteUser siteUser = this.userService.getUser(principal.getName());
 
-        // 3. 💡 태그 목록 유무에 따라 적절한 서비스 메서드 호출 (수정된 부분)
-        List<String> tagNames = postForm.getTagNames(); // PostForm DTO에서 태그 목록을 가져옴
+        // 3. 폼에서 파일 꺼내기 (추가된 부분)
+        MultipartFile file = postForm.getFile();
 
-        if (tagNames != null && !tagNames.isEmpty()) {
-            // ✅ 태그 목록이 있을 경우: 태그를 처리하는 오버로드된 메서드 호출
-            this.postService.create(
-                    postForm.getSubject(),
-                    postForm.getContent(),
-                    siteUser,
-                    tagNames // 태그 목록을 추가 파라미터로 전달
-            );
-        } else {
-            // ✅ 태그 목록이 없을 경우: 기존의 태그 처리 로직이 없는 메서드 호출
-            this.postService.create(
-                    postForm.getSubject(),
-                    postForm.getContent(),
-                    siteUser // 기존의 3개 파라미터만 전달
-            );
-        }
+        // 4. 서비스 호출 (태그와 파일을 한 번에 넘기도록 수정)
+        // PostService의 create 메서드 파라미터 순서와 일치해야 함
+        this.postService.create(
+                postForm.getSubject(),
+                postForm.getContent(),
+                siteUser,
+                postForm.getTagNames(), // 태그 리스트
+                file                    // 파일 객체
+        );
 
-        // 4. 리다이렉트 (기존 로직 유지)
-        return "redirect:/post/list"; // 게시물 저장 후 목록으로 이동
+        // 5. 리다이렉트
+        return "redirect:/post/list";
     }
 
 
@@ -157,4 +151,5 @@ public class PostController {
         
         return String.format("redirect:/post/detail/%s", id);
     }
+
 }
