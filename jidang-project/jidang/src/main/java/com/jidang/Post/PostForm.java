@@ -5,6 +5,8 @@ import jakarta.validation.constraints.Size;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,4 +22,7 @@ public class PostForm {
 
     // HTML 폼에서 여러 태그 이름(String)을 List 형태로 받아올 필드입니다.
     private List<String> tagNames;
+
+    // html form에서 name="file"로 넘어온 데이터를 받음
+    private MultipartFile file;
 }

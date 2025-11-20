@@ -53,6 +53,12 @@ public class Post {
     @JoinColumn(name = "game_id") //game_id는 Game의 id랑 연결
     private Game game; //게임 종류
 
+    // 저장된 파일의 이름 (예: uuid_image.jpg)
+    private String filename;
+
+    // 웹에서 접근할 때 사용할 경로 (예: /images/uuid_image.jpg)
+    private String filepath;
+
     @ManyToMany
     @JoinTable( // 중간 테이블 설정
         name = "post_liker", // 테이블 이름
