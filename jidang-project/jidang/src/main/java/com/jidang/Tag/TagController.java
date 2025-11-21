@@ -15,22 +15,30 @@ import java.util.List;
 public class TagController {
     private final TagService tagService;
 
+
     /**
-     * GET /tag/list/{tagName}
-     * 특정 태그가 달린 게시물 목록을 HTML 템플릿으로 반환합니다.
+     * 여러 태그로 조회하는 새로운 메서드 (쿼리 파라미터 사용)
+     * URL 예시: /tag/search?tags=공략&tags=팁&tags=자바
      */
-    @GetMapping("/list/{tagName}") // URL 경로를 REST API 형태에서 HTML 뷰 형태로 변경
-    public String getPostsByTag(@PathVariable String tagName, Model model) {
+    @GetMapping("/search")
+    public String getPostsByMultipleTags(
+            // @RequestParam으로 List<String>을 받으면 자동으로 여러 파라미터를 리스트로 변환합니다.
+            @RequestParam(value = "tags", required = false) List<String> tagNames,
+            Model model
+    ) {
+        if (tagNames == null || tagNames.isEmpty()) {
+            model.addAttribute("posts", List.of());
+            model.addAttribute("tagName", "검색 태그 없음");
+            return "tag_post_list";
+        }
 
-        // 1. TagService를 호출하여 게시물 목록을 가져옵니다.
-        List<Post> posts = tagService.findPostsByTagName(tagName);
+        // TagService의 새로운 메서드 호출 (아래 2번 참조)
+        List<Post> posts = tagService.findPostsByTagNames(tagNames);
 
-        // 2. 템플릿에 전달할 데이터를 Model 객체에 담습니다.
         model.addAttribute("posts", posts);
-        model.addAttribute("tagName", tagName); // 현재 태그 이름도 전달
+        // 검색 태그 목록을 템플릿에 보여주기 위해 쉼표로 연결
+        model.addAttribute("tagName", String.join(", ", tagNames));
 
-        // 3. 반환 값은 HTML 템플릿 파일의 이름입니다.
-        //    예: src/main/resources/templates/tag_post_list.html 파일을 찾아서 렌더링합니다.
         return "tag_post_list";
     }
 }

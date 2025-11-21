@@ -15,20 +15,20 @@ import java.util.stream.Collectors;
 public class TagService {
     private final TagRepository tagRepository;
 
+
     /**
-     * 특정 태그 이름으로 연결된 모든 게시물을 조회합니다.
-     * @param tagName 검색할 태그 이름
-     * @return 해당 태그가 포함된 Post 목록
+     * 여러 태그 이름으로 게시물을 조회하는 새로운 메서드
+     * @param tagNames 검색할 태그 이름 목록
+     * @return 하나라도 해당 태그를 가진 Post 목록
      */
     @Transactional(readOnly = true)
-    public List<Post> findPostsByTagName(String tagName) {
+    public List<Post> findPostsByTagNames(List<String> tagNames) {
 
-        Tag tag = tagRepository.findByName(tagName)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 태그입니다: " + tagName));
+        // TagRepository의 새로운 메서드를 호출 (아래 3번 참조)
+        // PostTag 엔티티를 거치지 않고, Post를 바로 가져오는 JPQL 또는 QueryDSL이 효율적이지만,
+        // 여기서는 Repository에 간단한 메서드를 추가하여 처리합니다.
 
-        //메서드 참조(Method Reference)로 변경하여 코드가 더 간결해짐
-        return tag.getPostTags().stream()
-                .map(PostTag::getPost) //PostTag 객체의 getPost() 메서드를 참조
-                .collect(Collectors.toList());
+        return tagRepository.findPostsByTagNames(tagNames);
     }
+
 }
