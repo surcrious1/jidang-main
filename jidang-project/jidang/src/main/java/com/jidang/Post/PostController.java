@@ -31,6 +31,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.jidang.Post.DTO.PostSearchCondition;
+
 @RequestMapping("/post")
 @RequiredArgsConstructor
 @Controller
@@ -151,5 +153,24 @@ public class PostController {
         
         return String.format("redirect:/post/detail/%s", id);
     }
+
+
+    /**
+     * 통합 검색 엔드포인트
+     * URL 예시: /post/search?keyword=공략&gameType=롤&tags=꿀팁&tags=재미
+     */
+    @GetMapping("/search")
+    public String searchPosts(PostSearchCondition condition, Model model) {
+
+        // 1. Service의 통합 검색 메서드 호출
+        List<Post> searchResults = postService.search(condition);
+
+        // 2. 뷰에 데이터 전달
+        model.addAttribute("posts", searchResults);
+        model.addAttribute("searchCondition", condition); // 뷰에서 검색어 유지를 위해 전달
+
+        return "post_list"; // 게시물 데이터(posts)를 반복문으로 출력하도록 구성된 템플릿의 이름
+    }
+
 
 }
