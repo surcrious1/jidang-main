@@ -10,6 +10,9 @@ import java.util.Optional;
 import com.jidang.DataNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.jidang.Post.DTO.PostSearchCondition;
+import org.springframework.data.jpa.domain.Specification;
+
 
 import java.time.LocalDateTime;
 
@@ -161,4 +164,68 @@ public class PostService {
 
         return postRepository.save(newPost);
     }
+
+
+    /**
+     * 게시물 통합 검색 (키워드, 게임 종류, 태그)
+     */
+    @Transactional(readOnly = true)
+    public List<Post> search(PostSearchCondition condition) {
+
+        Specification<Post> spec = (root, query, criteriaBuilder) -> criteriaBuilder.conjunction();
+
+        // 1. 키워드 검색 조건 추가 (제목 또는 내용 OR 검색)
+        if (condition.getKeyword() != null && !condition.getKeyword().isEmpty()) {
+            spec = spec.and(searchByKeyword(condition.getKeyword()));
+        }
+
+        // 2. 게임 종류 검색 조건 추가 (AND 검색)
+        if (condition.getGameType() != null && !condition.getGameType().isEmpty()) {
+            spec = spec.and(searchByGameType(condition.getGameType()));
+        }
+
+        // 3. 태그 검색 조건 추가 (AND 검색)
+        if (condition.getTags() != null && !condition.getTags().isEmpty()) {
+            spec = spec.and(searchByTags(condition.getTags())); // 메서드 이름도 searchByTags로 변경
+        }
+
+        // 조합된 Specification을 사용하여 DB에서 최종 결과를 조회합니다.
+        return postRepository.findAll(spec);
+    }
+
+    // ----------------------------------------------------
+    // Specification 개별 정의 메서드
+    // ----------------------------------------------------
+
+    // 1. 제목 또는 내용으로 검색 (OR)
+    private Specification<Post> searchByKeyword(String keyword) {
+        return (root, query, criteriaBuilder) -> {
+            String likeKeyword = "%" + keyword + "%";
+            return criteriaBuilder.or(
+                    criteriaBuilder.like(root.get("subject"), likeKeyword),
+                    criteriaBuilder.like(root.get("content"), likeKeyword)
+            );
+        };
+    }
+
+    // 2. 게임 종류로 검색 (Game 엔티티의 name으로 가정)
+    private Specification<Post> searchByGameType(String gameTypeName) {
+        return (root, query, criteriaBuilder) -> {
+            // 'game' 필드를 통해 Game 엔티티로 조인하여 이름을 비교
+            return criteriaBuilder.equal(root.get("game").get("name"), gameTypeName);
+        };
+    }
+
+    // 3. 태그 이름으로 검색 (PostTag 엔티티를 통해 조인)
+    private Specification<Post> searchByTags(List<String> tagNames) {
+        return (root, query, criteriaBuilder) -> {
+
+            // PostTag 엔티티를 통해 Tag 엔티티로 JOIN
+            jakarta.persistence.criteria.Join<Object, Object> tagJoin = root.join("postTags").join("tag");
+
+            // 💡 Tag 엔티티의 'name' 필드가 입력된 List<String> tagNames 중 하나라도 포함되는지 검사 (IN 절)
+            return tagJoin.get("name").in(tagNames);
+        };
+    }
+
 }

@@ -5,11 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9c0764d9-7301-456d-8273-11b053d9d6a0" name="변경" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jidang-project/jidang/src/main/java/com/jidang/Post/DTO/PostSearchCondition.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/src/main/java/com/jidang/Tag/TagController.java" beforeDir="false" afterPath="$PROJECT_DIR$/jidang-project/jidang/src/main/java/com/jidang/Tag/TagController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/src/main/java/com/jidang/Tag/TagRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/jidang-project/jidang/src/main/java/com/jidang/Tag/TagRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/src/main/java/com/jidang/Tag/TagService.java" beforeDir="false" afterPath="$PROJECT_DIR$/jidang-project/jidang/src/main/java/com/jidang/Tag/TagService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/src/main/java/com/jidang/Post/PostController.java" beforeDir="false" afterPath="$PROJECT_DIR$/jidang-project/jidang/src/main/java/com/jidang/Post/PostController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/src/main/java/com/jidang/Post/PostRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/jidang-project/jidang/src/main/java/com/jidang/Post/PostRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/src/main/java/com/jidang/Post/PostService.java" beforeDir="false" afterPath="$PROJECT_DIR$/jidang-project/jidang/src/main/java/com/jidang/Post/PostService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,6 +66,7 @@
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;second&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/GitHub/2025-2_jidang&quot;,
     &quot;project.structure.last.edited&quot;: &quot;SDK&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
