@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>게시물 목록 및 검색 결과</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .search-results-info { margin-bottom: 20px; font-weight: bold; color: #333; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+
+<h2>게시물 목록</h2>
+
+<div th:if="${searchCondition}">
+    <p class="search-results-info">
+        적용된 검색 조건:
+        [키워드: <span th:text="${searchCondition.keyword ?: '없음'}"></span>] |
+        [게임: <span th:text="${searchCondition.gameType ?: '없음'}"></span>] |
+        [태그: <span th:text="${searchCondition.tags != null ? #strings.listJoin(searchCondition.tags, ', ') : '없음'}"></span>]
+    </p>
+</div>
+
+<div class="search-container">
+    <form th:action="@{/post/search}" method="GET">
+        <input type="text" name="keyword" th:value="${searchCondition != null ? searchCondition.keyword : ''}" placeholder="키워드">
+        <input type="text" name="gameType" th:value="${searchCondition != null ? searchCondition.gameType : ''}" placeholder="게임 종류">
+        <input type="text" name="tags" placeholder="태그" th:value="${searchCondition != null and searchCondition.tags != null ? #strings.listJoin(searchCondition.tags, ',') : ''}">
+        <button type="submit">재검색</button>
+    </form>
+    <hr>
+</div>
+
+<table>
+    <thead>
+    <tr>
+        <th>번호</th>
+        <th>제목</th>
+        <th>게임 종류</th>
+        <th>태그</th>
+        <th>좋아요</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="post : ${posts}">
+        <td th:text="${post.id}"></td>
+        <td><a th:href="@{|/post/detail/${post.id}|}" th:text="${post.subject}"></a></td>
+        <td th:text="${post.game?.name}"></td>
+        <td>
+                    <span th:each="postTag, loopStat : ${post.postTags}">
+                        <span th:text="${postTag.tag.name}"></span>
+                        <span th:if="${!loopStat.last}">, </span>
+                    </span>
+        </td>
+        <td th:text="${post.liker}"></td>
+    </tr>
+    <tr th:if="${#lists.isEmpty(posts)}">
+        <td colspan="5">검색 결과가 없습니다.</td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

@@ -28,11 +28,15 @@ CREATE TABLE `comments` (
   `create_date` datetime(6) DEFAULT NULL,
   `post_id` int DEFAULT NULL,
   `author_id` bigint DEFAULT NULL,
+  `modify_date` datetime(6) DEFAULT NULL,
+  `parent_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FKbqnvawwwv4gtlctsi3o7vs131` (`post_id`),
   KEY `FK5sb54xergvptlykfuphpbime5` (`author_id`),
+  KEY `FKlri30okf66phtcgbe5pok7cc0` (`parent_id`),
   CONSTRAINT `FK5sb54xergvptlykfuphpbime5` FOREIGN KEY (`author_id`) REFERENCES `site_user` (`id`),
-  CONSTRAINT `FKbqnvawwwv4gtlctsi3o7vs131` FOREIGN KEY (`post_id`) REFERENCES `post` (`id`)
+  CONSTRAINT `FKbqnvawwwv4gtlctsi3o7vs131` FOREIGN KEY (`post_id`) REFERENCES `post` (`id`),
+  CONSTRAINT `FKlri30okf66phtcgbe5pok7cc0` FOREIGN KEY (`parent_id`) REFERENCES `comments` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -54,4 +58,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-10-16 21:50:05
+-- Dump completed on 2025-11-28 14:27:55

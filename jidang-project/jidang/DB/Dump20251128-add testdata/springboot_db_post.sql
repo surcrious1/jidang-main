@@ -28,10 +28,16 @@ CREATE TABLE `post` (
   `subject` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `author_id` bigint DEFAULT NULL,
   `create_date` datetime(6) DEFAULT NULL,
+  `game_id` bigint DEFAULT NULL,
+  `modify_date` datetime(6) DEFAULT NULL,
+  `filename` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `filepath` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FKqrch6ehd19k1ei52aemmgkscy` (`author_id`),
+  KEY `FK58kokkmvvj7hlwipn0q45gbsw` (`game_id`),
+  CONSTRAINT `FK58kokkmvvj7hlwipn0q45gbsw` FOREIGN KEY (`game_id`) REFERENCES `game` (`id`),
   CONSTRAINT `FKqrch6ehd19k1ei52aemmgkscy` FOREIGN KEY (`author_id`) REFERENCES `site_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,6 +46,7 @@ CREATE TABLE `post` (
 
 LOCK TABLES `post` WRITE;
 /*!40000 ALTER TABLE `post` DISABLE KEYS */;
+INSERT INTO `post` VALUES (1,'유저test,게임 원신으로 테스트 게시물','테스트 게시물',1,'2024-11-14 00:00:00.000000',1,NULL,NULL,NULL),(2,'원신 테스트 게시물','원신',2,'2025-11-28 00:00:00.000000',1,NULL,NULL,NULL),(3,'림버스 테스트 게시물','림버스 컴퍼니',3,'2025-11-28 00:00:00.000000',2,NULL,NULL,NULL),(4,'스타레일 테스트 게시물','스타레일',1,'2025-11-28 00:00:00.000000',3,NULL,NULL,NULL),(5,'리버스 테스트 게시물','리버스1999',2,'2025-11-28 00:00:00.000000',4,NULL,NULL,NULL),(6,'블루아카이브 테스트 게시물-여러태그','블루아카이브',3,'2025-11-28 00:00:00.000000',5,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `post` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -52,4 +59,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-10-16 21:50:04
+-- Dump completed on 2025-11-28 14:27:54

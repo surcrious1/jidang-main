@@ -16,27 +16,31 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `post`
+-- Table structure for table `site_user`
 --
 
-DROP TABLE IF EXISTS `post`;
+DROP TABLE IF EXISTS `site_user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `post` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `content` text COLLATE utf8mb4_unicode_ci,
-  `subject` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE `site_user` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `password` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `username` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UK8vlkw482t3gpnebxcm03ywk9p` (`email`),
+  UNIQUE KEY `UKjerlw3g2urnh55wcrm2b5kqnj` (`username`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `post`
+-- Dumping data for table `site_user`
 --
 
-LOCK TABLES `post` WRITE;
-/*!40000 ALTER TABLE `post` DISABLE KEYS */;
-/*!40000 ALTER TABLE `post` ENABLE KEYS */;
+LOCK TABLES `site_user` WRITE;
+/*!40000 ALTER TABLE `site_user` DISABLE KEYS */;
+INSERT INTO `site_user` VALUES (1,'test@gmail.com','12345','test'),(2,'leader@example.com','encrypted_pass_1','dev_leader'),(3,'kim@example.com','encrypted_pass_2','tester_kim'),(4,'guest@example.com','encrypted_pass_3','guest_user');
+/*!40000 ALTER TABLE `site_user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -48,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-10-13 23:07:41
+-- Dump completed on 2025-11-28 14:27:55
