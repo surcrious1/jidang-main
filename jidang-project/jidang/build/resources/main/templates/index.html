@@ -52,7 +52,7 @@
             </button>
 
             <!-- 로그인/프로필 -->
-            <a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/user/login}">로그인</a>
+            <a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/user/login}">👤로그인</a>
             <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/user/mypage}">
                 ⚙️ 마이페이지
             </a>
