@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<!-- layout.html 상속 -->
+<th:block
+        th:replace="index :: layout(~{::content}, ~{::scripts}, ~{::css})">
+
+  <!-- 추가 CSS 영역 -->
+  <th:block th:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/profile.css}">
+  </th:block>
+
+  <!-- 본문 컨텐츠 영역 -->
+  <!-- 내부 컨텐츠 개발중으로 임시임, 동적으로 수정 예정 -->
+  <div th:fragment="content" class="profile-container">
+
+    <section class="profile-header">
+      <h1>프로필</h1>
+      <form th:action="@{/user/logout}" method="post" style="display: inline;">
+        <button type="submit" class="logout-btn">로그아웃</button>
+      </form>
+    </section>
+
+    <!-- 프로필 카드 -->
+    <div class="profile-card">
+      <div class="avatar-box">
+        <span class="avatar-text" th:text="${user.username.substring(0,1)}">G</span>
+      </div>
+
+      <div class="profile-info">
+        <h2 th:text="${user.username}">GameMaster</h2>
+        <p th:text="${user.email}">gamer@example.com</p>
+        <p class="join-date">가입일: <span th:text="${user.joinDate}">2024-01-15</span></p>
+      </div>
+
+      <button class="settings-btn">설정</button>
+    </div>
+
+    <!-- 통계 -->
+    <!--
+    <div class="stats-grid">
+      <div>
+        <div class="stats-number" th:text="${user.followers}">234</div>
+        <p>팔로워</p>
+      </div>
+      <div>
+        <div class="stats-number" th:text="${user.following}">89</div>
+        <p>팔로잉</p>
+      </div>
+      <div>
+        <div class="stats-number" th:text="${user.posts}">42</div>
+        <p>게시글</p>
+      </div>
+    </div>
+  -->
+
+    <!-- 칭호 선택 -->
+    <!--
+    <section class="badge-section">
+      <h3>칭호 선택</h3>
+
+      <div class="badge-grid">
+        <div th:each="badge : ${badges}"
+             th:class="'badge-box ' + (${selectedBadge} == badge.id ? 'active' : '')"
+             th:onclick="'selectBadge(\\'' + badge.id + '\\')'">
+
+          <div class="badge-color" th:style="'background:' + badge.color"></div>
+          <p th:text="${badge.name}">전설의 게이머</p>
+
+          <p class="badge-selected"
+             th:if="${selectedBadge} == badge.id">현재 선택 중</p>
+        </div>
+      </div>
+    </section>-->
+  </div>
+
+
+  <!-- 스크립트 영역 -->
+
+  <th:block th:fragment="scripts">
+    <script th:src="@{/js/profile.js}"></script>
+  </th:block>
+
+</th:block>
+
+
+</html>
