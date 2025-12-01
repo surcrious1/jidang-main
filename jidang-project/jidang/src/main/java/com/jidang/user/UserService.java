@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import java.util.Optional;
 import com.jidang.DataNotFoundException;
 
+import java.time.LocalDateTime;
+
 
 @RequiredArgsConstructor
 @Service
@@ -20,6 +22,8 @@ public class UserService {
         user.setUsername(username);
         user.setEmail(email);
         user.setPassword(passwordEncoder.encode(password));
+        user.setJoinDate(LocalDateTime.now()); //가입 시간
+
         this.userRepository.save(user);
         return user;
     }
@@ -33,4 +37,7 @@ public class UserService {
             throw new DataNotFoundException("siteuser not found");
         }
     }
+
+
 }
+

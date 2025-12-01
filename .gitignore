@@ -1,0 +1,10 @@
+# IDE Files
+.idea/
+*.iml
+*.iws
+*.ipr
+.vscode/
+
+# Build and Gradle
+.gradle/
+build/

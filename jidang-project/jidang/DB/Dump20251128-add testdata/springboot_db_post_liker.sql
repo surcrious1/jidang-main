@@ -16,30 +16,29 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `comments`
+-- Table structure for table `post_liker`
 --
 
-DROP TABLE IF EXISTS `comments`;
+DROP TABLE IF EXISTS `post_liker`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `comments` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `content` text COLLATE utf8mb4_unicode_ci,
-  `create_date` datetime(6) DEFAULT NULL,
-  `post_id` int DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FKbqnvawwwv4gtlctsi3o7vs131` (`post_id`),
-  CONSTRAINT `FKbqnvawwwv4gtlctsi3o7vs131` FOREIGN KEY (`post_id`) REFERENCES `post` (`id`)
+CREATE TABLE `post_liker` (
+  `post_id` int NOT NULL,
+  `site_user_id` bigint NOT NULL,
+  PRIMARY KEY (`post_id`,`site_user_id`),
+  KEY `FKlwln23ojt1n2b5mdwwr04f63o` (`site_user_id`),
+  CONSTRAINT `FKdrxfut2lj3dag7nf1a0rm5u84` FOREIGN KEY (`post_id`) REFERENCES `post` (`id`),
+  CONSTRAINT `FKlwln23ojt1n2b5mdwwr04f63o` FOREIGN KEY (`site_user_id`) REFERENCES `site_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `comments`
+-- Dumping data for table `post_liker`
 --
 
-LOCK TABLES `comments` WRITE;
-/*!40000 ALTER TABLE `comments` DISABLE KEYS */;
-/*!40000 ALTER TABLE `comments` ENABLE KEYS */;
+LOCK TABLES `post_liker` WRITE;
+/*!40000 ALTER TABLE `post_liker` DISABLE KEYS */;
+/*!40000 ALTER TABLE `post_liker` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -51,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-10-13 23:07:41
+-- Dump completed on 2025-11-28 14:27:54

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>게시물 통합 검색</title>
+    <style>
+        .search-container { margin-bottom: 20px; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+        .search-group { margin-bottom: 10px; }
+        label { font-weight: bold; margin-right: 10px; }
+        input[type="text"] { padding: 5px; border: 1px solid #ccc; width: 250px; }
+        .tag-info { font-size: 0.8em; color: #555; display: block; margin-top: 5px; }
+    </style>
+</head>
+<body>
+
+<h2>게시물 통합 검색 폼</h2>
+
+<div class="search-container">
+    <form th:action="@{/post/search}" method="GET">
+
+        <div class="search-group">
+            <label for="keyword">키워드 (제목/내용):</label>
+            <input type="text" id="keyword" name="keyword" placeholder="예: 공략, 질문"
+                   th:value="${searchCondition != null ? searchCondition.keyword : ''}">
+        </div>
+
+        <div class="search-group">
+            <label for="gameType">게임 종류 (정확히 일치):</label>
+            <input type="text" id="gameType" name="gameType" placeholder="예: LOL"
+                   th:value="${searchCondition != null ? searchCondition.gameType : ''}">
+        </div>
+
+        <div class="search-group">
+            <label for="tags">태그 목록:</label>
+            <input type="text" id="tags" name="tags" placeholder="예: 자바 (URL에 '&tags=스프링' 추가 테스트)">
+            <span class="tag-info">여러 태그 테스트 시, 검색 후 주소창 URL에 &tags=태그이름 을 추가하세요.</span>
+        </div>
+
+        <button type="submit">검색 실행</button>
+    </form>
+</div>
+
+</body>
+</html>
