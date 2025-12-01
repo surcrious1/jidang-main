@@ -20,12 +20,16 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.ui.Model;
 import java.security.Principal; // 현재 로그인된 사용자 정보를 가져오는 객체
 
+import com.jidang.Post.PostRepository;
+
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/user")
 public class UserController {
     private final UserService userService;
     private final UserDetailsService userSecurityService;
+    private final PostRepository postRepository;
+
 
     @GetMapping("/signup")  //URL이 GET으로 요청되면 회원 가입을 위한 템플릿을 렌더링
     public String signup(UserCreateForm userCreateForm) {
@@ -81,8 +85,14 @@ public class UserController {
         // 2. UserService를 통해 DB에서 SiteUser 객체를 조회 (UserNotFoundException 처리 필요)
         SiteUser siteUser = this.userService.getUser(username);
 
-        // 3. Thymeleaf 템플릿으로 'user'라는 이름으로 전달
+        // 3. PostRepository의 countByAuthor 메서드를 사용하여 siteUser가 작성한 게시물 개수를 셉니다.
+        long postCount = this.postRepository.countByAuthor(siteUser);
+
+        // 4. Thymeleaf 템플릿으로 'user'라는 이름으로 전달
         model.addAttribute("user", siteUser);
+
+        // 5. 게시물 수를 'postCount'라는 이름으로 Model에 추가
+        model.addAttribute("postCount", postCount);
 
         return "mypage"; // mypage.html 템플릿 반환
     }
