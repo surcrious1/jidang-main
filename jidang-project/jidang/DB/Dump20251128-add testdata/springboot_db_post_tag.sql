@@ -16,34 +16,32 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `post`
+-- Table structure for table `post_tag`
 --
 
-DROP TABLE IF EXISTS `post`;
+DROP TABLE IF EXISTS `post_tag`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `post` (
+CREATE TABLE `post_tag` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `content` text COLLATE utf8mb4_unicode_ci,
-  `subject` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `author_id` bigint DEFAULT NULL,
-  `create_date` datetime(6) DEFAULT NULL,
-  `game_id` bigint DEFAULT NULL,
+  `post_id` int DEFAULT NULL,
+  `tag_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `FKqrch6ehd19k1ei52aemmgkscy` (`author_id`),
-  KEY `FK58kokkmvvj7hlwipn0q45gbsw` (`game_id`),
-  CONSTRAINT `FK58kokkmvvj7hlwipn0q45gbsw` FOREIGN KEY (`game_id`) REFERENCES `game` (`id`),
-  CONSTRAINT `FKqrch6ehd19k1ei52aemmgkscy` FOREIGN KEY (`author_id`) REFERENCES `site_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  KEY `FKc2auetuvsec0k566l0eyvr9cs` (`post_id`),
+  KEY `FKac1wdchd2pnur3fl225obmlg0` (`tag_id`),
+  CONSTRAINT `FKac1wdchd2pnur3fl225obmlg0` FOREIGN KEY (`tag_id`) REFERENCES `tag` (`id`),
+  CONSTRAINT `FKc2auetuvsec0k566l0eyvr9cs` FOREIGN KEY (`post_id`) REFERENCES `post` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `post`
+-- Dumping data for table `post_tag`
 --
 
-LOCK TABLES `post` WRITE;
-/*!40000 ALTER TABLE `post` DISABLE KEYS */;
-/*!40000 ALTER TABLE `post` ENABLE KEYS */;
+LOCK TABLES `post_tag` WRITE;
+/*!40000 ALTER TABLE `post_tag` DISABLE KEYS */;
+INSERT INTO `post_tag` VALUES (1,2,1),(2,3,2),(3,4,3),(4,5,3),(5,6,2),(6,6,1);
+/*!40000 ALTER TABLE `post_tag` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -55,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-10-31 16:44:24
+-- Dump completed on 2025-11-28 14:27:54

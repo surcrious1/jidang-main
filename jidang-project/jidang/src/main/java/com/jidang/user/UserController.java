@@ -17,6 +17,9 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.dao.DataIntegrityViolationException;
 
+import org.springframework.ui.Model;
+import java.security.Principal; // 현재 로그인된 사용자 정보를 가져오는 객체
+
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/user")
@@ -67,5 +70,20 @@ public class UserController {
     @GetMapping("/login")
     public String login() {
         return "login";
+    }
+
+    // 마이페이지 URL 추가(로그인된 사용자 정보 넘겨줌)
+    @GetMapping("/mypage")
+    public String mypage(Principal principal, Model model) {
+        // 1. Principal 객체에서 현재 로그인된 사용자의 'username'을 가져옴
+        String username = principal.getName();
+
+        // 2. UserService를 통해 DB에서 SiteUser 객체를 조회 (UserNotFoundException 처리 필요)
+        SiteUser siteUser = this.userService.getUser(username);
+
+        // 3. Thymeleaf 템플릿으로 'user'라는 이름으로 전달
+        model.addAttribute("user", siteUser);
+
+        return "mypage"; // mypage.html 템플릿 반환
     }
 }

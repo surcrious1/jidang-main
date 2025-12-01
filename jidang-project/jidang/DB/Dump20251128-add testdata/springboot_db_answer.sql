@@ -16,33 +16,31 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `comments`
+-- Table structure for table `answer`
 --
 
-DROP TABLE IF EXISTS `comments`;
+DROP TABLE IF EXISTS `answer`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `comments` (
+CREATE TABLE `answer` (
   `id` int NOT NULL AUTO_INCREMENT,
   `content` text COLLATE utf8mb4_unicode_ci,
   `create_date` datetime(6) DEFAULT NULL,
-  `post_id` int DEFAULT NULL,
-  `author_id` bigint DEFAULT NULL,
+  `question_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `FKbqnvawwwv4gtlctsi3o7vs131` (`post_id`),
-  KEY `FK5sb54xergvptlykfuphpbime5` (`author_id`),
-  CONSTRAINT `FK5sb54xergvptlykfuphpbime5` FOREIGN KEY (`author_id`) REFERENCES `site_user` (`id`),
-  CONSTRAINT `FKbqnvawwwv4gtlctsi3o7vs131` FOREIGN KEY (`post_id`) REFERENCES `post` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  KEY `FK8frr4bcabmmeyyu60qt7iiblo` (`question_id`),
+  CONSTRAINT `FK8frr4bcabmmeyyu60qt7iiblo` FOREIGN KEY (`question_id`) REFERENCES `question` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `comments`
+-- Dumping data for table `answer`
 --
 
-LOCK TABLES `comments` WRITE;
-/*!40000 ALTER TABLE `comments` DISABLE KEYS */;
-/*!40000 ALTER TABLE `comments` ENABLE KEYS */;
+LOCK TABLES `answer` WRITE;
+/*!40000 ALTER TABLE `answer` DISABLE KEYS */;
+INSERT INTO `answer` VALUES (1,'네 자동으로 생성됩니다만?','2025-10-09 23:33:44.789777',1),(2,'따로 생성할 필요가 없습니다만?','2025-10-09 23:34:16.653589',1);
+/*!40000 ALTER TABLE `answer` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -54,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-10-31 16:44:24
+-- Dump completed on 2025-11-28 14:27:54

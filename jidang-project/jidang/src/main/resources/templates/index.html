@@ -1,5 +1,7 @@
 <!doctype html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       th:fragment="layout(content, scripts, css)">
 <head>
     <meta charset="utf-8">
@@ -50,8 +52,9 @@
             </button>
 
             <!-- 로그인/프로필 -->
-            <a th:href="@{/user/login}" class="icon-btn">
-                👤
+            <a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/user/login}">👤로그인</a>
+            <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/user/mypage}">
+                ⚙️ 마이페이지
             </a>
 
             <!-- 모바일 메뉴 버튼 -->

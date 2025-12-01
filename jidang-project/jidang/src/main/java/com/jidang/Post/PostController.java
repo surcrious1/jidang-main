@@ -169,7 +169,7 @@ public class PostController {
         model.addAttribute("posts", searchResults);
         model.addAttribute("searchCondition", condition); // 뷰에서 검색어 유지를 위해 전달
 
-        return "post_list"; // 게시물 데이터(posts)를 반복문으로 출력하도록 구성된 템플릿의 이름
+        return "test_post_list"; // 게시물 데이터(posts)를 반복문으로 출력하도록 구성된 템플릿의 이름
     }
 
 
