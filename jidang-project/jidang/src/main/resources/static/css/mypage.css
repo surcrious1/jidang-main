@@ -1,0 +1,334 @@
+/* ===========================
+   프로필 공통
+   =========================== */
+
+/* 포인트 색상 (원하면 여기만 보라색으로 변경) */
+:root {
+  --accent: #f9fafb;
+  --accent-soft: #16a34a;
+}
+
+/* 전체 컨테이너 */
+.profile-container {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 4rem;
+  color: #f9fafb;
+}
+
+/* 상단 타이틀 + 로그아웃 버튼 */
+.profile-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+
+.profile-header h1 {
+  font-size: 2.1rem;
+  font-weight: 700;
+}
+
+/* 로그아웃 버튼 (빨간) */
+.logout-btn {
+  border: none;
+  border-radius: 999px;
+  padding: 0.55rem 1.2rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  background: #ef4444;
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease, transform 0.08s ease,
+    box-shadow 0.15s ease;
+  box-shadow: 0 6px 18px rgba(239, 68, 68, 0.4);
+}
+
+.logout-btn:hover {
+  background: #dc2626;
+  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.35);
+}
+
+.logout-btn:active {
+  transform: scale(0.97);
+}
+
+/* 공통 카드 스타일 (각 섹션 박스) */
+.profile-card,
+.stats-grid,
+.profile-section {
+  background: #020617;
+  border-radius: 1.5rem;
+  box-shadow: 0 22px 45px rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba(31, 41, 55, 0.9);
+}
+
+/* ===========================
+   1) 상단 프로필 카드
+   =========================== */
+
+.profile-card {
+  padding: 1.8rem 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1.6rem;
+  margin-bottom: 1.8rem;
+}
+
+/* 아바타 */
+.avatar-box {
+  width: 76px;
+  height: 76px;
+  border-radius: 1.1rem;
+  background: linear-gradient(135deg, var(--accent), var(--accent-soft));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.avatar-text {
+  font-size: 2.6rem;
+  font-weight: 800;
+  color: #022c22;
+}
+
+/* 프로필 텍스트 */
+.profile-info {
+  flex: 1;
+}
+
+.profile-info h2 {
+  margin: 0 0 0.25rem;
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.profile-info > p {
+  margin: 0;
+}
+
+.profile-info > p:nth-of-type(1) {
+  color: #e5e7eb;
+  font-size: 0.95rem;
+  margin-bottom: 0.25rem;
+}
+
+.profile-info .join-date {
+  color: #9ca3af;
+  font-size: 0.85rem;
+}
+
+/* 설정 버튼 */
+.settings-btn {
+  border: none;
+  border-radius: 999px;
+  padding: 0.55rem 1.1rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  background: var(--accent);
+  color: #022c22;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease, transform 0.08s ease,
+    box-shadow 0.15s ease;
+  box-shadow: 0 8px 20px rgba(34, 197, 94, 0.45);
+}
+
+.settings-btn:hover {
+  background: var(--accent-soft);
+  box-shadow: 0 4px 14px rgba(22, 163, 74, 0.45);
+}
+
+.settings-btn:active {
+  transform: scale(0.97);
+}
+
+/* ===========================
+   2) 통계 카드 (게시글 수 박스)
+   =========================== */
+
+.stats-grid {
+  margin-top: 0.6rem;
+  padding: 1.8rem 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1.4rem;
+}
+
+.stats-grid > div {
+  text-align: center;
+}
+
+.stats-number {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 0.2rem;
+}
+
+.stats-grid p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #9ca3af;
+}
+
+/* ===========================
+   3) 아래 섹션들 공용 (칭호, 진행중인 게임, 최근 활동)
+   =========================== */
+
+.profile-section {
+  padding: 1.8rem 2rem;
+  margin-top: 1.8rem;
+}
+
+/* 섹션 헤더 (아이콘 + 제목) */
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 1.2rem;
+}
+
+.section-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.section-icon {
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  background: rgba(34, 197, 94, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===========================
+   예시: 진행 중인 게임 리스트 (원하면 HTML에 추가해서 사용)
+   =========================== */
+
+.game-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.game-item {
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid rgba(31, 41, 55, 0.9);
+}
+
+.game-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.game-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.35rem;
+}
+
+.game-title {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.game-playtime {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #9ca3af;
+}
+
+/* 진행도 바 */
+.game-progress-bar {
+  width: 100%;
+  height: 0.45rem;
+  border-radius: 999px;
+  background: #020617;
+  overflow: hidden;
+  margin-bottom: 0.4rem;
+}
+
+.game-progress-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--accent);
+  transition: width 0.25s ease-out;
+}
+
+.game-meta {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #9ca3af;
+}
+
+/* ===========================
+   예시: 최근 활동 리스트
+   =========================== */
+
+.activity-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.activity-item {
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid rgba(31, 41, 55, 0.9);
+}
+
+.activity-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.activity-title {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.activity-meta {
+  margin: 0.35rem 0 0;
+  font-size: 0.8rem;
+  color: #9ca3af;
+}
+
+/* ===========================
+   반응형
+   =========================== */
+
+@media (max-width: 768px) {
+  .profile-container {
+    padding: 2.2rem 1rem 3rem;
+  }
+
+  .profile-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .profile-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.8rem;
+  }
+
+  .stats-grid {
+    padding: 1.4rem 1.4rem;
+  }
+
+  .profile-section {
+    padding: 1.4rem 1.4rem;
+  }
+}
