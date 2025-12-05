@@ -21,6 +21,7 @@ import com.jidang.Game.Game;
 import com.jidang.Game.GameRepository;
 import com.jidang.Tag.Tag;
 import com.jidang.Tag.TagRepository;
+import com.jidang.Title.TitleService;
 import com.jidang.PostTag.PostTag;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,6 +35,7 @@ public class PostService {
     private final PostRepository postRepository;
     private final GameRepository gameRepository;
     private final TagRepository tagRepository;
+    private final TitleService titleService;
 
     public List<Post> getList() {
         return this.postRepository.findAll();
@@ -84,8 +86,12 @@ public class PostService {
             }
         }
 
-        // 3. Post 저장 (PostTag 목록도 Cascade 설정에 의해 함께 저장됨)
-        return postRepository.save(newPost);
+        Post savedPost = postRepository.save(newPost); // 글 저장 완료
+
+        // ✅ 3. 글 저장이 끝난 직후 칭호 체크 실행
+        titleService.checkAndGrantTitles(user);
+
+        return savedPost;
     }
 
 
@@ -161,8 +167,12 @@ public class PostService {
                 newPost.addPostTag(postTag);
             }
         }
+        Post savedPost = postRepository.save(newPost); // 글 저장 완료
 
-        return postRepository.save(newPost);
+        // ✅ 3. 글 저장이 끝난 직후 칭호 체크 실행
+        titleService.checkAndGrantTitles(user);
+
+        return savedPost;
     }
 
 
