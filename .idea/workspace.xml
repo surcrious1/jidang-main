@@ -5,12 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9c0764d9-7301-456d-8273-11b053d9d6a0" name="변경" comment="">
-      <change afterPath="$PROJECT_DIR$/jidang-project/jidang/src/main/java/com/jidang/Title/titlecontroller.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/jidang-project/jidang/src/main/resources/templates/titlepage.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jidang-project/jidang/src/main/java/com/jidang/Title/TitleController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/.gradle/8.14.3/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/jidang-project/jidang/.gradle/8.14.3/executionHistory/executionHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/.gradle/8.14.3/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/jidang-project/jidang/.gradle/8.14.3/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/.gradle/8.14.3/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/jidang-project/jidang/.gradle/8.14.3/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/.gradle/8.14.3/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/jidang-project/jidang/.gradle/8.14.3/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/.gradle/8.14.3/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/jidang-project/jidang/.gradle/8.14.3/fileHashes/resourceHashesCache.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/jidang-project/jidang/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/jidang-project/jidang/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/src/main/java/com/jidang/user/SiteUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/jidang-project/jidang/src/main/java/com/jidang/user/SiteUser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/src/main/resources/static/css/postlist.css" beforeDir="false" afterPath="$PROJECT_DIR$/jidang-project/jidang/src/main/resources/static/css/postlist.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/jidang-project/jidang/.gradle/file-system.probe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/reports/problems/problems-report.html" beforeDir="false" afterPath="$PROJECT_DIR$/jidang-project/jidang/build/reports/problems/problems-report.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/jidang-project/jidang/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/src/main/java/com/jidang/Title/titlecontroller.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/jidang-project/jidang/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,7 +76,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "second",
     "ignore.virus.scanning.warn.message": "true",
     "last_opened_file_path": "C:/GitHub/2025-2_jidang",
     "project.structure.last.edited": "SDK",
@@ -83,7 +90,7 @@
       <recent name="C:\GitHub\2025-2_jidang\jidang-project\jidang\DB" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.JidangApplication">
+  <component name="RunManager" selected="애플리케이션.JidangApplication">
     <configuration name="JidangApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.jidang.JidangApplication" />
       <module name="jidang-project.main" />
