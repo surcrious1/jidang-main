@@ -173,6 +173,12 @@ public class PostService {
             }
         }
 
+        if (gameSlug != null && !gameSlug.isBlank() && !"자유".equals(gameSlug)) {
+            if (!effectiveTags.contains(gameSlug)) {   // 중복 방지
+                effectiveTags.add(gameSlug);
+            }
+        }
+
         if (effectiveTags.isEmpty()) {
             effectiveTags.add("자유");
         }

@@ -1,13 +1,21 @@
 /* ===============================
-   기본 컬러 정의
+   기본 컬러 정의 (다크 + 보라 테마)
 ================================= */
 :root {
-    --point-purple: #8b5cf6;   /* 주요 포인트 컬러 */
-    --point-purple-dark: #6d28d9;
-    --bg-light: #fafafa;
-    --text-dark: #333;
-    --text-light: #777;
-    --border-color: #e5e5e5;
+    --point-purple: #715cff;          /* 메인 포인트 컬러 */
+    --point-purple-dark: #9b6bff;     /* 호버/서브 포인트 컬러 */
+
+    --bg-light: #0e0e0e;              /* 페이지 기본 배경 */
+    --bg-card: #1e1e1e;               /* 카드/박스 배경 */
+
+    --text-dark: #ffffff;             /* 메인 글씨 */
+    --text-light: #eaeaea;            /* 서브 글씨 */
+    --text-muted: #ccc;               /* 그외, 아이콘/푸터 등 */
+
+    --border-color: #333;             /* 섹션 구분용 */
+
+    --shadow-soft: rgba(113, 92, 255, 0.20);  /* 연보라 섀도우 */
+    --shadow-strong: rgba(113, 92, 255, 0.42);/* 진한 보라 섀도우 */
 }
 
 /* ===============================
@@ -17,6 +25,7 @@
     max-width: 900px;
     margin: 0 auto;
     padding: 40px 20px;
+    background: var(--bg-light);
 }
 
 /* ===============================
@@ -50,25 +59,27 @@
     flex-direction: column;
 }
 
-/* 커뮤니티 글쓰기 버튼 */
+/* 글쓰기 버튼 */
 .write-btn {
     background: var(--point-purple);
-    color: white;
+    color: #fff;
     padding: 10px 18px;
     border-radius: 8px;
     font-weight: 600;
     font-size: 0.95rem;
     text-decoration: none;
     transition: 0.2s ease;
+    border: 1px solid transparent;
 }
 
 .write-btn:hover {
     background: var(--point-purple-dark);
     transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(139, 92, 246, 0.25);
+    box-shadow: 0 4px 14px var(--shadow-soft);
+    border-color: var(--point-purple);
 }
 
-/* 반응형: 모바일에서 세로 정렬 */
+/* 반응형 헤더 */
 @media (max-width: 768px) {
     .community-header-inner {
         flex-direction: column;
@@ -83,7 +94,7 @@
 }
 
 /* ===============================
-   게시물 리스트 공통
+   게시물 리스트
 ================================= */
 .post-list {
     display: grid;
@@ -94,9 +105,9 @@
 .post-card {
     padding: 20px;
     border-radius: 12px;
-    background: white;
+    background: var(--bg-card);
     border: 1px solid var(--border-color);
-    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.4);
     transition: 0.2s ease-in-out;
     cursor: pointer;
 }
@@ -104,19 +115,40 @@
 .post-card:hover {
     transform: translateY(-4px);
     border-color: var(--point-purple);
-    box-shadow: 0 4px 14px rgba(139, 92, 246, 0.25);
+    box-shadow: 0 4px 16px var(--shadow-strong);
 }
 
-/* 태그 배지 */
-.post-tag {
-    display: inline-block;
-    background-color: var(--point-purple);
-    color: white;
-    font-size: 0.8rem;
-    padding: 4px 10px;
-    border-radius: 20px;
+/* ===============================
+   게임 태그 + 게시물 태그 박스
+================================= */
+
+.post-tag-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     margin-bottom: 12px;
+}
+
+/* 공통 태그 박스 */
+.tag-box {
+    padding: 4px 12px;
+    border-radius: 10px;
+    font-size: 0.85rem;
     font-weight: 600;
+    white-space: nowrap;
+    display: inline-block;
+}
+
+/* 게임 태그 (보라색 강조) */
+.game-tag {
+    background: linear-gradient(135deg, var(--point-purple), var(--point-purple-dark));
+    color: #fff;
+}
+
+/* 게시물 태그 (회색 보조) */
+.post-tag {
+    background: linear-gradient(135deg, var(--point-purple), var(--point-purple-dark));
+    color: #fff;
 }
 
 /* 제목 */
@@ -141,14 +173,14 @@
     align-items: center;
     margin-bottom: 15px;
     font-size: 0.85rem;
-    color: var(--text-light);
+    color: var(--text-muted);
 }
 
 .post-meta-dot {
     margin: 0 6px;
     width: 4px;
     height: 4px;
-    background: #aaa;
+    background: var(--border-color);
     border-radius: 50%;
 }
 
@@ -163,7 +195,7 @@
     display: flex;
     align-items: center;
     font-size: 0.9rem;
-    color: var(--text-light);
+    color: var(--text-muted);
 }
 
 .stat-icon {
@@ -179,7 +211,7 @@
     margin-top: 80px;
 }
 
-/* 반응형: 2열 카드 */
+/* 2열 카드 */
 @media (min-width: 768px) {
     .post-list {
         grid-template-columns: 1fr 1fr;
@@ -187,56 +219,38 @@
 }
 
 /* ===============================
-   게임 헤더 공통 이미지 스타일
-   (태그 페이지 / 게임용 헤더 모두에서 사용)
-================================= */
-/* 게임 아이콘(태그 페이지 공통) */
-.game-header-img {
-    width: 72px;    /* 커뮤니티 헤더 높이랑 비슷하게 크게 */
-    height: 72px;
-    border-radius: 16px;
-    object-fit: cover;
-}
-
-/* ===============================
-   포스트 리스트 상단 헤더
-   - 필요하면 HTML에서 .postlist-header 사용
+   게임별 헤더 디자인
 ================================= */
 
-/* 태그 페이지 전체 컨테이너 */
 .postlist-tag-page {
     max-width: 900px;
     margin: 0 auto;
     padding: 24px 20px;
+    background: var(--bg-light);
 }
 
-/* 헤더 전체 여백 */
 .postlist-tag-page .community-header {
     margin-bottom: 24px;
 }
 
-/* 헤더 안쪽: 좌/우 배치 */
 .postlist-tag-page .community-header-inner {
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
-/* 왼쪽: 이미지 + 텍스트를 가로로 */
 .postlist-tag-page .community-left {
     display: flex;
     align-items: center;
     gap: 14px;
 }
 
-/* 텍스트 묶음 */
 .postlist-tag-page .community-text {
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
 
-/* 게임 이미지 크기 */
 .postlist-tag-page .game-header-img {
     width: 100px;
     height: 100px;
@@ -244,7 +258,7 @@
     object-fit: cover;
 }
 
-/* ★ 게임 이름 색 고정 (#715cff) */
+/* 게임 제목 */
 .postlist-tag-page .header-title {
     font-size: 2.8rem;
     font-weight: 800;
@@ -252,20 +266,20 @@
     margin: 0;
 }
 
-/* ★ 설명 텍스트 색 (반투명 흰색) */
+/* 게임 설명 */
 .postlist-tag-page .header-desc {
     margin-top: 4px;
     font-size: 1.6rem;
     color: rgba(255, 255, 255, 0.7);
 }
 
-/* 오른쪽: 글 작성 버튼 */
+/* 글쓰기 버튼 */
 .postlist-tag-page .header-right button {
     background: var(--point-purple);
     color: #fff;
     padding: 8px 16px;
     border-radius: 8px;
-    border: none;
+    border: 1px solid transparent;
     font-weight: 600;
     cursor: pointer;
     transition: 0.2s ease;
@@ -273,4 +287,6 @@
 
 .postlist-tag-page .header-right button:hover {
     background: var(--point-purple-dark);
+    box-shadow: 0 4px 14px var(--shadow-soft);
+    border-color: var(--point-purple);
 }

@@ -117,7 +117,11 @@ body {
   object-fit: cover;
 }
 
-.game-card h1, h2, h3, h4, h5 {
+.game-card h1,
+.game-card h2,
+.game-card h3,
+.game-card h4,
+.game-card h5 {
   margin: 12px 0 6px;
   font-size: 1.2rem;
   color: #ffffff;

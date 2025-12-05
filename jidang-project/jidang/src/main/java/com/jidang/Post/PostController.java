@@ -30,10 +30,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.jidang.Post.DTO.PostSearchCondition;
 
-import com.jidang.Post.DTO.GameInfo;
-import java.util.Map;
-import java.util.HashMap;
 import org.springframework.web.bind.annotation.RequestParam;
+
+// 🔹 DB에서 게임 정보를 가져오기 위해 추가
+import com.jidang.Game.Game;
+import com.jidang.Game.GameRepository;
 
 @RequestMapping("/post")
 @RequiredArgsConstructor
@@ -42,20 +43,7 @@ public class PostController {
 
     private final PostService postService;
     private final UserService userService;
-
-    /* ===============================
-        게임 정보 매핑 (DB 없이 slug → 이미지/이름/설명 연결)
-    =============================== */
-
-    private static final Map<String, GameInfo> GAME_INFO = new HashMap<>();
-
-    static {
-        GAME_INFO.put("genshin", new GameInfo("원신", "/images/키릴-추도미르비치-플린스.webp", "플린스 결혼해줘"));
-        GAME_INFO.put("limbus", new GameInfo("림버스 컴퍼니", "/images/마법소녀돈키.jpeg", "관리자 나리~~~!!!!!!"));
-        GAME_INFO.put("starrail", new GameInfo("스타레일", "/images/반디그긴거.jpeg", "붕괴 오마주 게임"));
-        GAME_INFO.put("re1999", new GameInfo("리버스 1999", "/images/리버스버틴.jpeg", "폭풍우 후에엥"));
-        GAME_INFO.put("bluearchive", new GameInfo("블루아카이브", "/images/대전차지뢰.jpeg", "몰?루"));
-    }
+    private final GameRepository gameRepository;   // 🔹 추가
 
     /* ============================================================
        ① 기존 리스트 (테스트 페이지)
@@ -88,8 +76,7 @@ public class PostController {
     @GetMapping("/create")
     public String postCreate(
             PostForm postForm,
-            @RequestParam(value = "gameSlug",
-            required = false) String gameSlug) {
+            @RequestParam(value = "gameSlug", required = false) String gameSlug) {
 
         // 게임 페이지에서 넘어온 경우: 해당 slug 사용
         if (gameSlug != null && !gameSlug.isBlank()) {
@@ -104,8 +91,8 @@ public class PostController {
     }
 
     /* ============================================================
-    ④ 게시물 생성 (파일 + 태그 + 게임 종류)
-    ============================================================ */
+       ④ 게시물 생성 (파일 + 태그 + 게임 종류)
+       ============================================================ */
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/create")
     public String postCreate(
@@ -227,34 +214,43 @@ public class PostController {
     }
 
     /* ============================================================
-       ⑨ 태그별 게시물 목록
-       URL: /post/tag/{tagName}
-       ============================================================ */
-    @GetMapping("/tag/{tagName}")
-    public String listByTag(@PathVariable("tagName") String tagName,
+   ⑨ 태그별 게시물 목록 (게임 slug + 태그 검색 + DB 게임정보)
+   URL: /post/tag/{slug}  (slug = game.slug)
+   ============================================================ */
+    @GetMapping("/tag/{slug}")
+    public String listByTag(@PathVariable("slug") String slug,
                             PostSearchCondition condition,
                             Model model) {
 
+        // 1) slug(영어 코드) -> 태그 이름(한글) 매핑
+        String tagName = switch (slug) {
+            case "genshin"     -> "원신";
+            case "limbus"      -> "림버스 컴퍼니";
+            case "starrail"    -> "스타레일";
+            case "re1999"      -> "리버스 1999";
+            case "bluearchive" -> "블루아카이브";
+            default            -> slug;   // 자유, 공략, 정보 등 이미 한글인 경우
+        };
+
+        // 2) 태그 조건 세팅 (검색용)
         if (condition.getTags() == null) {
             condition.setTags(new ArrayList<>());
         } else {
             condition.getTags().clear();
         }
+        condition.getTags().add(tagName);   // 이제 한글 태그 이름으로 검색
 
-        condition.getTags().add(tagName);
+        // 3) 게시물 검색
         List<Post> posts = postService.search(condition);
-
         model.addAttribute("posts", posts);
-        model.addAttribute("currentTag", tagName);
 
-        /* ============================================================
-       게임 정보 매핑 (MAP 기반)
-       ============================================================ */
-        GameInfo info = GAME_INFO.get(tagName);
-        if (info != null) {
-            model.addAttribute("gameName", info.getName());
-            model.addAttribute("gameImage", info.getImage());
-            model.addAttribute("gameDesc", info.getDesc());
+        // 글쓰기 버튼 등에서 사용할 슬러그(영어 코드)
+        model.addAttribute("currentTag", slug);
+
+        // 4) 게임 정보는 DB에서 slug로 조회
+        Game game = gameRepository.findBySlug(slug).orElse(null);
+        if (game != null) {
+            model.addAttribute("game", game);   // Game 엔티티 전체 전달
         }
 
         return "postlist_tag_page";

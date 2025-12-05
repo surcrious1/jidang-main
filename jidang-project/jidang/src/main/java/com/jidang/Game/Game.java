@@ -32,4 +32,9 @@ public class Game {
 
     @OneToMany(mappedBy = "game")
     private List<Post> posts; // Game과 Post 연결
+
+    // 게임 설명 작성
+    @Column(length = 500)
+    private String description;
+
 }

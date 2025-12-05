@@ -4,7 +4,7 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       th:replace="~{index :: layout(~{::content}, ~{::scripts}, ~{::css})}">
 
-<!-- ★ 페이지 전용 CSS -->
+<!-- 페이지 전용 CSS -->
 <th:block th:fragment="css">
     <link rel="stylesheet" th:href="@{/css/postlist.css}">
 </th:block>
@@ -24,7 +24,8 @@
 
             <!-- 오른쪽: 글쓰기 버튼 -->
             <div class="header-right">
-                <a href="/post/create" class="write-btn">✏️ 글 작성</a>
+                <a th:href="@{|/post/create?gameSlug=${currentTag}|}"
+                   class="write-btn">✏️ 글 작성</a>
             </div>
 
         </div>
@@ -38,19 +39,19 @@
                  th:each="post : ${posts}"
                  th:attr="data-href=@{|/post/detail/${post.id}|}">
 
-            <!-- ★ 태그 출력 (null-safe) -->
-            <div class="post-tag">
+            <div class="post-tag-wrapper">
 
-                <!-- postTags가 존재하고 1개 이상일 때 -->
-                <span th:if="${post.postTags != null and post.postTags.size() > 0}"
-                      th:text="${post.postTags[0].tag != null ? post.postTags[0].tag.name : '태그없음'}">
+                <!-- 🎮 게임 태그 박스 -->
+                <span class="tag-box game-tag"
+                      th:if="${post.game != null}"
+                      th:text="${post.game.name}">
                 </span>
 
-                <!-- postTags가 비었을 때 -->
-                <span th:if="${post.postTags == null or post.postTags.size() == 0}">
-                    태그없음
+                <!-- 🏷 게시물 태그 박스 -->
+                <span class="tag-box post-tag"
+                      th:if="${post.postTags != null and post.postTags.size() > 0}"
+                      th:text="${post.postTags[0].tag.name}">
                 </span>
-
             </div>
 
             <!-- 제목 -->
@@ -61,8 +62,17 @@
                th:text="${#strings.abbreviate(post.content, 80)}">
             </p>
 
-            <!-- ★ 작성자 + 날짜 (완전 null-safe) -->
+            <!-- 작성자 + 날짜 (완전 null-safe) -->
             <div class="post-meta">
+                <!-- 선택된 칭호가 존재하고, '선택안함'이 아닐 경우만 표시 -->
+                <span th:if="${post.author != null
+                    and post.author.selectedTitle != null
+                    and post.author.selectedTitle != ''
+                    and post.author.selectedTitle != '선택안함'}"
+                      class="author-title">
+                        [<span th:text="${post.author.selectedTitle}"></span>]
+                </span>
+
                 <span th:text="${post.author != null ? post.author.username : '알 수 없음'}"></span>
                 <span class="post-meta-dot"></span>
                 <span th:text="${post.createDate != null ? post.createDate : ''}"></span>
