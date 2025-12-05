@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{index :: layout(~{::content}, ~{::scripts}, ~{::css})}">
+
+<!-- ★ 페이지 전용 CSS -->
+<th:block th:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/postdetail.css}">
+</th:block>
+
+<!-- 본문 영역 -->
+<div th:fragment="content" class="post-detail-page">
+
+    <!-- 메인 카드 -->
+    <article class="post-detail-card">
+
+        <!-- 상단 정보 -->
+        <header class="post-detail-header">
+
+            <div class="post-detail-meta-top">
+                <!-- 작성자 -->
+                <span class="post-detail-author"
+                      th:text="${post.author != null ? post.author.username : '알 수 없음'}">
+                    게이머A
+                </span>
+                <span class="post-detail-dot">·</span>
+
+                <!-- 작성 시간 -->
+                <span class="post-detail-time"
+                      th:text="${post.createDate != null ?
+                               #temporals.format(post.createDate, 'yyyy.MM.dd HH:mm') :
+                               ''}">
+                    2025.01.01 12:00
+                </span>
+
+                <!-- 수정됨 표시 (있을 때만) -->
+                <span class="post-detail-modified"
+                      th:if="${post.modifyDate != null}">
+                    (수정됨
+                    <span th:text="${#temporals.format(post.modifyDate, 'yyyy.MM.dd HH:mm')}"></span>)
+                </span>
+            </div>
+
+            <!-- 제목 -->
+            <h1 class="post-detail-title" th:text="${post.subject}">
+                게시글 제목
+            </h1>
+
+            <!-- 게임 / 태그 칩 -->
+            <div class="post-detail-tags">
+                <!-- 게임 종류 (Game 엔티티에 name 필드가 있다고 가정, 다르면 바꿔줘) -->
+                <span class="tag-chip tag-chip-game"
+                      th:if="${post.game != null}"
+                      th:text="${post.game.name}">
+                    게임이름
+                </span>
+
+                <!-- 태그들 -->
+                <span class="tag-chip"
+                      th:each="pt : ${post.postTags}"
+                      th:text="${pt.tag != null ? pt.tag.name : '태그'}">
+                    공략
+                </span>
+
+                <!-- 태그가 하나도 없을 때 -->
+                <span class="tag-chip tag-chip-empty"
+                      th:if="${post.postTags == null or #lists.isEmpty(post.postTags)}">
+                    태그 없음
+                </span>
+            </div>
+        </header>
+
+        <!-- 첨부 이미지 (있을 때만) -->
+        <section class="post-detail-attachment"
+                 th:if="${post.filepath != null}">
+            <img th:src="@{${post.filepath}}" alt="첨부 이미지" class="post-detail-image">
+        </section>
+
+        <!-- 본문 내용 -->
+        <section class="post-detail-body">
+            <!-- 줄바꿈 유지 -->
+            <p class="post-detail-content"
+               th:utext="${#strings.escapeXml(post.content)?.replaceAll('\n', '<br/>')}">
+                게시글 본문 내용입니다.
+            </p>
+        </section>
+
+        <!-- 하단 통계 -->
+        <section class="post-detail-stats">
+            <div class="stat">
+                <span class="stat-icon">❤</span>
+                <span th:text="${post.liker != null ? #lists.size(post.liker) : 0}">
+                    0
+                </span>
+            </div>
+            <div class="stat">
+                <span class="stat-icon">💬</span>
+                <span th:text="${post.commentsList != null ? #lists.size(post.commentsList) : 0}">
+                    0
+                </span>
+            </div>
+        </section>
+    </article>
+
+    <!-- 액션 버튼 영역 -->
+    <section class="post-detail-actions">
+        <button type="button"
+                id="likeButton"
+                class="action-btn"
+                th:data-like-url="@{|/post/like/${post.id}|}"
+                sec:authorize="isAuthenticated()">
+            ❤ 좋아요
+        </button>
+
+        <button type="button" class="action-btn" id="commentButton">
+            💬 댓글
+        </button>
+
+        <button type="button" class="action-btn" id="shareButton">
+            📤 공유
+        </button>
+    </section>
+
+    <!-- 댓글 영역 -->
+    <section class="post-detail-comments">
+
+        <!-- 댓글 개수 -->
+        <h2 class="comments-title">
+            댓글
+            <span class="comments-count"
+                  th:text="${post.commentsList != null ? #lists.size(post.commentsList) : 0}">
+                0
+            </span>
+        </h2>
+
+        <!-- 댓글 목록 -->
+        <div class="comments-list">
+            <div class="comment-item"
+                 th:each="comment : ${post.commentsList}">
+                <div class="comment-meta">
+                    <span class="comment-author"
+                          th:text="${comment.author != null ? comment.author.username : '익명'}">
+                        게이머B
+                    </span>
+                    <span class="comment-dot">·</span>
+                    <span class="comment-time"
+                          th:text="${comment.createDate != null ?
+                                   #temporals.format(comment.createDate, 'yyyy.MM.dd HH:mm') :
+                                   ''}">
+                        2025.01.01 13:00
+                    </span>
+                </div>
+                <p class="comment-content"
+                   th:text="${comment.content}">
+                    좋은 정보 감사합니다!
+                </p>
+            </div>
+
+            <!-- 댓글이 없을 때 -->
+            <p class="comments-empty"
+               th:if="${post.commentsList == null or #lists.isEmpty(post.commentsList)}">
+                아직 댓글이 없습니다. 첫 번째 댓글을 남겨보세요!
+            </p>
+        </div>
+
+        <!-- 댓글 작성 폼 (★ 나중에 기능 붙일 예정이라 실제 전송은 막아둠) -->
+        <!--
+        TODO: 나중에 댓글 저장 기능 만들 때 아래 form을 활성화하고
+              th:action / th:object / th:field / CSRF 토큰 등을 추가하면 됨.
+              예시)
+              <form th:action="@{|/comments/create/${post.id}|}"
+                    method="post"
+                    th:object="${commentsForm}">
+        -->
+        <form class="comment-form" action="#" method="post" onsubmit="return false;">
+            <textarea class="comment-textarea"
+                      name="content"
+                      placeholder="댓글을 입력하세요..."
+                      rows="3"></textarea>
+
+            <div class="comment-form-footer">
+                <button type="submit" class="comment-submit-btn">
+                    작성
+                </button>
+            </div>
+        </form>
+        <!-- </form> -->
+
+    </section>
+
+</div>
+
+<!-- 페이지 전용 JS -->
+<th:block th:fragment="scripts">
+    <script defer th:src="@{/js/postdetail.js}"></script>
+</th:block>
+
+</html>

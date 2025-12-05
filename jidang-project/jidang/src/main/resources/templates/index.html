@@ -28,9 +28,10 @@
         <nav class="nav-links">
             <a th:href="@{/post/community}" th:classappend="${activePage == 'community'} ? 'active'">커뮤니티</a>
             <a th:href="@{/#game-section}" th:classappend="${activePage == 'games'} ? 'active'">게임</a>
+            <!-- 페이지 정리 후 경로 수정 필요, 모바일 버전 포함;; -->
             <a href="/guides" th:classappend="${activePage == 'guides'} ? 'active'">공략</a>
             <a href="/official" th:classappend="${activePage == 'official'} ? 'active'">공식</a>
-            <a href="/achievements" th:classappend="${activePage == 'achievements'} ? 'active'">업적</a>
+            <a href="/title" th:classappend="${activePage == 'achievements'} ? 'active'">업적</a>
         </nav>
 
         <!-- 오른쪽 액션들 -->

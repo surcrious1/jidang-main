@@ -4,14 +4,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-// 다른 패키지에 있는 클래스들을 가져오기 위한 Import (필수)
 import com.jidang.user.SiteUser;
 import com.jidang.user.UserRepository;
 import com.jidang.Post.PostRepository;
 import com.jidang.Comments.CommentsRepository;
 
-import java.util.Set;
-import java.util.HashSet;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -21,39 +21,64 @@ public class TitleService {
     private final PostRepository postRepository;
     private final CommentsRepository commentsRepository;
 
-    // 칭호 상수 정의
-    private static final String TITLE_STRATEGY_MASTER = "공략마스터";
-    private static final String TITLE_COMMENT_KING = "수다쟁이";
+    // Enum 에서 이름을 가져오도록 변경 (한 곳에서만 정의되게)
+    private static final String TITLE_STRATEGY_MASTER =
+            TitleInfo.STRATEGY_MASTER.getDisplayName();
+    private static final String TITLE_COMMENT_KING =
+            TitleInfo.COMMENT_KING.getDisplayName();
 
+    /*
+     유저의 현재 글/댓글 수를 보고 칭호를 부여하는 로직
+     - 공략마스터: 공략 태그 글 5개 이상
+     - 수다쟁이  : 댓글 20개 이상
+    */
     @Transactional
     public void checkAndGrantTitles(SiteUser user) {
-        // 1. 유저의 칭호 목록이 비어있을 경우를 대비해 초기화함
         if (user.getTitles() == null) {
             user.setTitles(new HashSet<>());
         }
         Set<String> currentTitles = user.getTitles();
 
-        // 2. '공략마스터' 칭호 체크 (이미 가지고 있지 않은 경우에만 검사)
+        // 1) 공략마스터 입수 조건
         if (!currentTitles.contains(TITLE_STRATEGY_MASTER)) {
-            // [핵심] PostRepository에 정의한 메서드 이름으로 조회함
-            // 해석: 작성자(Author)가 user이고, 태그 이름(Tag Name)이 "공략"인 글의 개수
-            long strategyCount = postRepository.countByAuthorAndPostTags_Tag_Name(user, "공략");
-            
+            long strategyCount =
+                    postRepository.countByAuthorAndPostTags_Tag_Name(user, "공략");
             if (strategyCount >= 5) {
                 user.addTitle(TITLE_STRATEGY_MASTER);
             }
         }
 
-        // 3. '수다쟁이' 칭호 체크 (댓글 20개 이상)
+        // 2) 수다쟁이 입수 조건
         if (!currentTitles.contains(TITLE_COMMENT_KING)) {
             long commentCount = commentsRepository.countByAuthor(user);
-            
             if (commentCount >= 20) {
                 user.addTitle(TITLE_COMMENT_KING);
             }
         }
 
-        // 4. 칭호가 추가되었을 수 있으므로 변경된 유저 정보를 저장함
+        // 변경된 칭호 저장
         userRepository.save(user);
+    }
+
+    /*
+     사용자가 가지고 있는 문자열 titles -> TitleInfo 리스트로 변환
+     (획득한 업적 목록)
+     */
+    public List<TitleInfo> getEarnedTitleInfos(SiteUser user) {
+        return user.getTitles().stream()
+                .map(TitleInfo::fromDisplayName)
+                .filter(Objects::nonNull)   // Enum 에 등록되지 않은 값은 제외
+                .collect(Collectors.toList());
+    }
+
+    /*
+     전체 TitleInfo 중, 아직 가지지 않은 것들
+     (미획득 업적 목록)
+    */
+    public List<TitleInfo> getLockedTitleInfos(SiteUser user) {
+        Set<String> owned = user.getTitles();
+        return Stream.of(TitleInfo.values())
+                .filter(t -> !owned.contains(t.getDisplayName()))
+                .collect(Collectors.toList());
     }
 }

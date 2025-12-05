@@ -36,54 +36,82 @@
       <button class="settings-btn">설정</button>
     </div>
 
-    <!-- 통계 -->
+    <!-- 칭호 영역 -->
+    <section class="profile-section">
+      <h3>나의 칭호</h3>
 
+      <!-- 대표 칭호가 있을 때 -->
+      <div class="current-badge" th:if="${user.selectedTitle != null}">
+        <p class="badge-label">현재 대표 칭호</p>
+        <p class="badge-name" th:text="${user.selectedTitle}">
+          공략마스터
+        </p>
+      </div>
+
+      <!-- 대표 칭호 없음 (선택 안 함) -->
+      <p class="no-badge" th:if="${user.selectedTitle == null}">
+        현재 사용 중인 칭호가 없습니다. (선택 안 함)
+      </p>
+
+      <!-- 내가 가진 칭호 목록 -->
+      <div class="owned-titles" th:if="${user.titles != null and !user.titles.isEmpty()}">
+        <p class="subtitle">보유 칭호</p>
+        <ul>
+          <li th:each="t : ${user.titles}" th:text="${t}">
+            공략마스터
+          </li>
+        </ul>
+      </div>
+
+      <!-- 칭호 전체보기 페이지 이동 -->
+      <div class="badge-actions">
+        <a class="badge-all-btn" th:href="@{/title}">
+          🎖 칭호 전체보기
+        </a>
+      </div>
+    </section>
+
+    <!-- 내 활동 / 게시글 카드 -->
     <div class="stats-grid">
-      <!--
-      <div>
-        <div class="stats-number" th:text="${user.followers}">234</div>
-        <p>팔로워</p>
-      </div>
-      <div>
-        <div class="stats-number" th:text="${user.following}">89</div>
-        <p>팔로잉</p>
-      </div>
-      -->
-      <div>
-        <div class="stats-number" th:text="${postCount}">42</div>
+      <!-- 상단 요약 숫자 -->
+      <div class="stats-summary">
+        <div class="stats-number" th:text="${postCount}">0</div>
         <p>게시글</p>
+      </div>
+
+      <!-- 우측: 최근 게시글 / 없을 때 문구 -->
+      <div class="stats-activity">
+        <p class="stats-activity-title">최근 게시글</p>
+
+        <!-- 게시글이 없을 때 -->
+        <p class="stats-empty" th:if="${postCount == 0}">
+          작성된 게시글이 없습니다.
+        </p>
+
+        <!-- 게시글이 있을 때 -->
+        <ul class="stats-post-list" th:if="${postCount > 0}">
+          <li th:each="post : ${userPosts}" class="stats-post-item">
+            <a th:href="@{|/post/detail/${post.id}|}"
+               th:text="${post.subject}"
+               class="stats-post-link">
+              게시글 제목
+            </a>
+            <span class="stats-post-date"
+                  th:text="${#temporals.format(post.createDate, 'yyyy.MM.dd HH:mm')}">
+          2025.12.05 21:00
+        </span>
+          </li>
+        </ul>
       </div>
     </div>
 
-
-    <!-- 칭호 선택 -->
-    <!--
-    <section class="badge-section">
-      <h3>칭호 선택</h3>
-
-      <div class="badge-grid">
-        <div th:each="badge : ${badges}"
-             th:class="'badge-box ' + (${selectedBadge} == badge.id ? 'active' : '')"
-             th:onclick="'selectBadge(\\'' + badge.id + '\\')'">
-
-          <div class="badge-color" th:style="'background:' + badge.color"></div>
-          <p th:text="${badge.name}">전설의 게이머</p>
-
-          <p class="badge-selected"
-             th:if="${selectedBadge} == badge.id">현재 선택 중</p>
-        </div>
-      </div>
-    </section>-->
   </div>
-
-
-  <!-- 스크립트 영역 -->
+    <!-- 스크립트 영역 -->
 
   <th:block th:fragment="scripts">
     <script th:src="@{/js/mypage.js}"></script>
   </th:block>
 
 </th:block>
-
 
 </html>
