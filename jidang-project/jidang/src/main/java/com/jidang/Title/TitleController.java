@@ -76,6 +76,6 @@ public class TitleController {
         userRepository.save(user);
 
         // 대표 칭호 적용 후 마이페이지로 이동
-        return "redirect:/title";
+        return "redirect:/user/mypage#title-section";
     }
 }

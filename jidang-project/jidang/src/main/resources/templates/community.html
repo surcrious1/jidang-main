@@ -9,7 +9,7 @@
     <link rel="stylesheet" th:href="@{/css/postlist.css}">
 </th:block>
 
-<!-- ★ 본문 영역 -->
+<!-- 본문 영역 -->
 <div th:fragment="content" class="community-page">
 
     <section class="community-header">
@@ -24,9 +24,7 @@
 
             <!-- 오른쪽: 글쓰기 버튼 -->
             <div class="header-right">
-                <button>글작성</button>
-                <!-- 글 작성 페이지 생성 후 적용
-                <a href="/post/list" class="write-btn">✏️ 글 작성</a> -->
+                <a href="/post/create" class="write-btn">✏️ 글 작성</a>
             </div>
 
         </div>

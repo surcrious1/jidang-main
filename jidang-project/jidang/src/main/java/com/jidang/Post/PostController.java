@@ -33,7 +33,7 @@ import com.jidang.Post.DTO.PostSearchCondition;
 import com.jidang.Post.DTO.GameInfo;
 import java.util.Map;
 import java.util.HashMap;
-
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RequestMapping("/post")
 @RequiredArgsConstructor
@@ -64,7 +64,7 @@ public class PostController {
     public String list(Model model) {
         List<Post> postList = this.postService.getList();
         model.addAttribute("posts", postList);
-        return "test_post_list";
+        return "community";
     }
 
     /* ============================================================
@@ -78,7 +78,7 @@ public class PostController {
         model.addAttribute("post", post);          // ← 상세 페이지에서 사용할 데이터
         model.addAttribute("commentsForm", commentsForm); // 나중에 댓글 기능에 사용 예정
 
-        return "postdeatil";
+        return "postdetail";
     }
 
     /* ============================================================
@@ -86,13 +86,26 @@ public class PostController {
        ============================================================ */
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/create")
-    public String postCreate(PostForm postForm) {
-        return "test_post_create";
+    public String postCreate(
+            PostForm postForm,
+            @RequestParam(value = "gameSlug",
+            required = false) String gameSlug) {
+
+        // 게임 페이지에서 넘어온 경우: 해당 slug 사용
+        if (gameSlug != null && !gameSlug.isBlank()) {
+            postForm.setGameSlug(gameSlug);
+        } else {
+            // 아무 것도 없으면 기본값 "자유"
+            if (postForm.getGameSlug() == null || postForm.getGameSlug().isBlank()) {
+                postForm.setGameSlug("자유");
+            }
+        }
+        return "post_form";
     }
 
     /* ============================================================
-       ④ 게시물 생성 (파일 + 태그 + 게임 종류)
-       ============================================================ */
+    ④ 게시물 생성 (파일 + 태그 + 게임 종류)
+    ============================================================ */
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/create")
     public String postCreate(
@@ -101,23 +114,25 @@ public class PostController {
             Principal principal) throws Exception {
 
         if (bindingResult.hasErrors()) {
-            return "test_post_create";
+            return "post_form";
         }
 
         SiteUser siteUser = this.userService.getUser(principal.getName());
-        MultipartFile file = postForm.getFile();
+        List<MultipartFile> files = postForm.getFiles();
         String gameSlug = postForm.getGameSlug();
 
-        this.postService.create(
+        // 저장된 Post 객체를 그대로 받아온다
+        Post savedPost = this.postService.create(
                 postForm.getSubject(),
                 postForm.getContent(),
                 siteUser,
                 postForm.getTagNames(),
-                file,
+                files,
                 gameSlug
         );
 
-        return "redirect:/post/community";
+        // 방금 작성한 글의 상세 페이지로 이동
+        return "redirect:/post/detail/" + savedPost.getId();
     }
 
     /* ============================================================
@@ -134,7 +149,7 @@ public class PostController {
 
         postForm.setSubject(post.getSubject());
         postForm.setContent(post.getContent());
-        return "Post_form";
+        return "post_form";
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -146,7 +161,7 @@ public class PostController {
             @PathVariable("id") Integer id) {
 
         if (bindingResult.hasErrors()) {
-            return "Post_form";
+            return "post_form";
         }
 
         Post post = this.postService.getPost(id);

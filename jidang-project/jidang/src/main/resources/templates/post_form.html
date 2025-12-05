@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{index :: layout(~{::content}, ~{::scripts}, ~{::css})}">
+
+<!-- 이 페이지 전용 CSS -->
+<th:block th:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/post_create.css}">
+</th:block>
+
+<!-- 본문 영역 -->
+<th:block th:fragment="content">
+
+    <main class="post-create-page">
+        <div class="post-create-inner">
+
+            <!-- 페이지 타이틀 -->
+            <header class="page-header">
+                <h1 class="page-title">게시글 작성</h1>
+                <p class="page-subtitle">자유롭게 게시글을 작성해주세요</p>
+            </header>
+
+            <!-- 폼 카드 (배경에서 뚜렷하게 분리되는 박스) -->
+            <section class="post-form-card">
+                <form th:action="@{/post/create}"
+                      th:object="${postForm}"
+                      method="post"
+                      enctype="multipart/form-data"
+                      class="post-form">
+
+                    <!-- 게임의 종류(게임 선택 / 자유) -->
+                    <div class="form-row">
+                        <label class="form-label" for="gameSlug">게임의 종류</label>
+                        <select id="gameSlug" class="form-select" th:field="*{gameSlug}">
+                            <option value="자유">자유</option>
+                            <option value="genshin">원신</option>
+                            <option value="limbus">림버스 컴퍼니</option>
+                            <option value="starrail">스타레일</option>
+                            <option value="re1999">리버스 1999</option>
+                            <option value="bluearchive">블루아카이브</option>
+                        </select>
+                        <p class="field-error"
+                           th:if="${#fields.hasErrors('gameSlug')}"
+                           th:errors="*{gameSlug}"></p>
+                    </div>
+
+                    <!-- 게시글 종류 (태그 선택) -->
+                    <div class="form-row">
+                        <label class="form-label" for="tagNames">게시글 종류</label>
+                        <select id="tagNames" class="form-select" th:field="*{tagNames}">
+                            <option value="자유">자유</option>
+                            <option value="공략">공략</option>
+                            <option value="질문">질문</option>
+                            <option value="정보">정보</option>
+                            <option value="뉴비가이드">뉴비가이드</option>
+                            <option value="팬아트">팬아트</option>
+                        </select>
+                        <p class="field-error"
+                           th:if="${#fields.hasErrors('tagNames')}"
+                           th:errors="*{tagNames}"></p>
+                    </div>
+
+                    <!-- 제목 -->
+                    <div class="form-row">
+                        <label class="form-label" for="subject">제목</label>
+                        <input id="subject"
+                               type="text"
+                               class="form-input"
+                               th:field="*{subject}"
+                               placeholder="게시글 제목을 입력해주세요" />
+                        <p class="field-error"
+                           th:if="${#fields.hasErrors('subject')}"
+                           th:errors="*{subject}"></p>
+                    </div>
+
+                    <!-- 내용 -->
+                    <div class="form-row">
+                        <label class="form-label" for="content">내용</label>
+                        <textarea id="content"
+                                  class="form-textarea"
+                                  th:field="*{content}"
+                                  placeholder="게시글 내용을 입력해주세요"></textarea>
+                        <p class="field-error"
+                           th:if="${#fields.hasErrors('content')}"
+                           th:errors="*{content}"></p>
+                    </div>
+
+                    <!-- 파일 업로드 -->
+                    <div class="form-row">
+                        <label class="form-label" for="fileInput">이미지 업로드</label>
+
+                        <!-- 드래그 앤 드롭 영역 -->
+                        <div class="file-drop-zone" id="dropZone">
+                            이미지를 업로드하려면 클릭하거나 드래그하세요
+                        </div>
+
+                        <!-- 실제 file input (여러 개 업로드 허용) -->
+                        <input type="file"
+                               id="fileInput"
+                               name="files"
+                               accept="image/*"
+                               multiple
+                               style="display:none;" />
+
+                        <!-- 미리보기 박스 -->
+                        <div class="file-preview" id="filePreview"></div>
+
+                    </div>
+
+                    <!-- 버튼 영역 -->
+                    <div class="form-actions">
+                        <button type="submit" class="btn-primary">게시글 작성</button>
+                        <button type="button" class="btn-secondary" onclick="history.back()">취소</button>
+                    </div>
+
+                </form>
+            </section>
+
+        </div>
+    </main>
+
+</th:block>
+
+<!-- 이 페이지 전용 JS -->
+<th:block th:fragment="scripts">
+    <script th:src="@{/js/post_create.js}"></script>
+</th:block>
+
+</html>
