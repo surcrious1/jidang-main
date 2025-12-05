@@ -44,4 +44,9 @@ public class SiteUser {
     public void addTitle(String title) {
         this.titles.add(title);
     }
+
+    // 💡 대표 칭호 필드 추가
+    @Column(length = 50)
+    private String selectedTitle;
+    // 이 필드에는 사용자가 선택한 칭호 이름(String)이 저장됩니다.
 }
