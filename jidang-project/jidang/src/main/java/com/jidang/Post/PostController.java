@@ -59,13 +59,16 @@ public class PostController {
        ② 상세 페이지
        ============================================================ */
     @GetMapping("/detail/{id}")
-    public String detail(Model model, @PathVariable("id") Integer id, CommentsForm commentsForm) {
+    public String detail(Model model, @PathVariable("id") Integer id, CommentsForm commentsForm,Principal principal) {
 
         Post post = this.postService.getPost(id);  // ← Post 엔티티 1개 조회
 
         model.addAttribute("post", post);          // ← 상세 페이지에서 사용할 데이터
         model.addAttribute("commentsForm", commentsForm); // 나중에 댓글 기능에 사용 예정
 
+        if (principal != null) {
+            model.addAttribute("principal", principal);
+        }
         return "postdetail";
     }
 
