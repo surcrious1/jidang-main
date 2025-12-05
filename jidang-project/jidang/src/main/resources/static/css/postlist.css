@@ -27,14 +27,14 @@
 }
 
 .community-title {
-    font-size: 2.2rem;
+    font-size: 2.8rem;
     font-weight: 800;
     color: var(--text-dark);
     margin-bottom: 8px;
 }
 
 .community-subtitle {
-    font-size: 1rem;
+    font-size: 1.6rem;
     color: var(--text-light);
 }
 
@@ -238,15 +238,15 @@
 
 /* 게임 이미지 크기 */
 .postlist-tag-page .game-header-img {
-    width: 72px;
-    height: 72px;
+    width: 100px;
+    height: 100px;
     border-radius: 16px;
     object-fit: cover;
 }
 
 /* ★ 게임 이름 색 고정 (#715cff) */
 .postlist-tag-page .header-title {
-    font-size: 1.6rem;
+    font-size: 2.8rem;
     font-weight: 800;
     color: #715cff;
     margin: 0;
@@ -255,7 +255,7 @@
 /* ★ 설명 텍스트 색 (반투명 흰색) */
 .postlist-tag-page .header-desc {
     margin-top: 4px;
-    font-size: 0.95rem;
+    font-size: 1.6rem;
     color: rgba(255, 255, 255, 0.7);
 }
 

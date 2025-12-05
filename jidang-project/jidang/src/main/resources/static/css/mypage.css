@@ -314,13 +314,30 @@
 }
 
 .badge-all-btn {
+  border: none;
+  border-radius: 999px;
+  padding: 0.55rem 1.1rem;
   font-size: 0.85rem;
-  color: var(--sub-purple);
+  font-weight: 500;
+  cursor: pointer;
+
+  background: var(--main-purple); /* 메인 포인트 보라색 버튼 */
+  color: #fff;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
   text-decoration: none;
+
+  transition: background 0.15s ease, transform 0.08s ease, box-shadow 0.15s ease;
+  box-shadow: 0 8px 20px rgba(113, 92, 255, 0.45); /* 보라빛 그림자 */
 }
 
 .badge-all-btn:hover {
-  text-decoration: underline;
+  background: var(--sub-purple); /* hover 시 서브 보라 */
+  transform: scale(0.97);
+  box-shadow: 0 6px 16px rgba(113, 92, 255, 0.55);
 }
 
 /* ===========================

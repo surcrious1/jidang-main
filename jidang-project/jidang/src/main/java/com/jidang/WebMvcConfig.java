@@ -13,8 +13,12 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        
-        registry.addResourceHandler("/uploads/**")
-                .addResourceLocations("file:///" + uploadPath);
+
+        // uploadPath 예: C:/project/uploads or /home/ubuntu/uploads
+        String normalizedPath =
+                uploadPath.endsWith("/") ? uploadPath : uploadPath + "/";
+
+        registry.addResourceHandler("/uploads/**")       // URL로 접근할 경로
+                .addResourceLocations("file:" + normalizedPath);  // 실제 파일 위치
     }
 }

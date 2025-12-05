@@ -11,8 +11,9 @@
 
   --border-soft: #1e1e1e;       /* 소프트 테두리 */
 
-  --accent-purple-soft: rgba(113, 92, 255, 0.15); /* 연보라 강조 */
-  --accent-purple-tag: rgba(113, 92, 255, 0.12);
+  --accent-purple-soft: rgba(113, 92, 255, 0.20);
+  --accent-purple-tag: rgba(113, 92, 255, 0.42);
+
 }
 
 /* ================================
@@ -56,20 +57,22 @@
 }
 
 .clear-title-btn {
-  border: 1px solid var(--border-soft);
+  border: 1px solid var(--sub-purple);
   border-radius: 999px;
   padding: 0.35rem 0.9rem;
   font-size: 0.8rem;
   font-weight: 500;
   cursor: pointer;
-  background: transparent;
-  color: var(--text-gray);
+  background: var(--accent-purple-soft);
+  color: var(--text-sub);
+
   transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
 }
 
 .clear-title-btn:hover {
-  background: #181818;
-  color: var(--text-sub);
+  background: var(--sub-purple);
+  color: #fff;
+  border-color: var(--main-purple);
 }
 
 /* ================================
@@ -81,14 +84,14 @@
   border: 1px solid var(--main-purple);
   font-size: 0.8rem;
   font-weight: 500;
-  color: var(--text-sub);
   text-decoration: none;
-  background: transparent;
+  background: var(--accent-purple-tag);
+  color: var(--text-sub);
   transition: all 0.15s ease;
 }
 
 .selected-title-btn:hover {
-  background: var(--accent-purple-soft);
+  background: var(--main-purple);
   color: #fff;
   border-color: var(--sub-purple);
 }
