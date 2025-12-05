@@ -71,10 +71,17 @@
             </div>
         </header>
 
-        <!-- 첨부 이미지 (있을 때만) -->
+        <!-- 첨부 이미지 영역 -->
         <section class="post-detail-attachment"
-                 th:if="${post.filepath != null}">
-            <img th:src="@{${post.filepath}}" alt="첨부 이미지" class="post-detail-image">
+                 th:if="${post.images != null and !#lists.isEmpty(post.images)}">
+
+            <div class="post-detail-image-list">
+                <img class="post-detail-image"
+                     th:each="img : ${post.images}"
+                     th:src="@{${img.filepath}}"
+                     alt="첨부 이미지">
+            </div>
+
         </section>
 
         <!-- 본문 내용 -->

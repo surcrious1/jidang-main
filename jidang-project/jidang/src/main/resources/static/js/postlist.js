@@ -1,8 +1,6 @@
-/* postlist.js */
-
-/**
- * 게시물 카드 클릭 → 상세페이지 이동
- */
+/*
+ 게시물 카드 클릭 → 상세페이지 이동
+*/
 document.addEventListener("DOMContentLoaded", () => {
 
     const cards = document.querySelectorAll(".post-card");

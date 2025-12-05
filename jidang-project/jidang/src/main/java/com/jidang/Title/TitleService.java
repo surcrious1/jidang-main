@@ -26,11 +26,15 @@ public class TitleService {
             TitleInfo.STRATEGY_MASTER.getDisplayName();
     private static final String TITLE_COMMENT_KING =
             TitleInfo.COMMENT_KING.getDisplayName();
+    private static final String TITLE_VETERAN =
+            TitleInfo.VETERAN.getDisplayName();
+    private static final String TITLE_FANART_MASTER =
+            TitleInfo.FANART_MASTER.getDisplayName();
+    // 추가시 이곳에 조건을 부여할 칭호 작성
 
     /*
      유저의 현재 글/댓글 수를 보고 칭호를 부여하는 로직
-     - 공략마스터: 공략 태그 글 5개 이상
-     - 수다쟁이  : 댓글 20개 이상
+     ex) 공략마스터: 공략 태그 글 5개 이상
     */
     @Transactional
     public void checkAndGrantTitles(SiteUser user) {
@@ -48,11 +52,23 @@ public class TitleService {
             }
         }
 
-        // 2) 수다쟁이 입수 조건
+        // 2) 수다쟁이 - 댓글 20개 이상
         if (!currentTitles.contains(TITLE_COMMENT_KING)) {
             long commentCount = commentsRepository.countByAuthor(user);
             if (commentCount >= 20) {
                 user.addTitle(TITLE_COMMENT_KING);
+            }
+        }
+        // 3) 고인물 - 특정 게임 플레이타임 10000시간 이상(플레이타임 측정의 어려움으로 구현 X)
+
+        // 4) 팬아트 장인 — 팬아트 태그 10개 이상
+        Set<String> current = user.getTitles();
+        if (!current.contains(TITLE_FANART_MASTER)) {
+            long fanartCount =
+                    postRepository.countByAuthorAndPostTags_Tag_Name(user, "팬아트");
+
+            if (fanartCount >= 10) {
+                user.addTitle(TITLE_FANART_MASTER);
             }
         }
 

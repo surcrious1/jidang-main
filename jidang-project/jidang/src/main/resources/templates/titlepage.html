@@ -3,12 +3,12 @@
 
 <th:block th:replace="index :: layout(~{::content}, ~{::scripts}, ~{::css})">
 
-    <!-- ✅ CSS 분리 -->
+    <!-- CSS 분리 -->
     <th:block th:fragment="css">
         <link rel="stylesheet" th:href="@{/css/title.css}">
     </th:block>
 
-    <!-- ✅ 본문 -->
+    <!-- 본문 -->
     <div th:fragment="content" class="achievements-container">
 
         <!-- 상단 헤더: 왼쪽 제목, 오른쪽 버튼들 -->
@@ -20,13 +20,13 @@
                 <form th:action="@{/title/select}" method="post" class="clear-title-form">
                     <input type="hidden" name="title" value="" />
                     <button type="submit" class="clear-title-btn">
-                        대표 칭호 선택 안 함
+                        선택 안 함
                     </button>
                 </form>
 
                 <!-- 마이페이지에서 대표 칭호 확인 -->
-                <a class="selected-title-btn" th:href="@{/user/mypage}">
-                    선택된 칭호 확인하기
+                <a th:href="@{/user/mypage} + '#title-section'" class="selected-title-btn">
+                    선택한 칭호 확인하기
                 </a>
             </div>
         </header>
@@ -37,7 +37,7 @@
             <button class="tab-btn" data-tab="locked">미획득 업적</button>
         </div>
 
-        <!-- ▽ 획득한 업적 탭 -->
+        <!-- 획득한 업적 탭 -->
         <section class="tab-panel active" id="tab-earned">
             <div class="achievement-grid">
 
@@ -75,7 +75,6 @@
               <span class="achievement-tag" th:text="${t.category}">
                 공략
               </span>
-
                             <!-- 아직 대표 칭호가 아니라면 버튼 -->
                             <button type="submit"
                                     class="set-title-btn"
@@ -94,7 +93,7 @@
             </div>
         </section>
 
-        <!-- ▽ 미획득 업적 탭 -->
+        <!-- 미획득 업적 탭 -->
         <section class="tab-panel" id="tab-locked">
             <div class="achievement-grid">
 
