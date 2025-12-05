@@ -6,72 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="9c0764d9-7301-456d-8273-11b053d9d6a0" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/classes/java/main/com/jidang/Comments/Comments.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/classes/java/main/com/jidang/Comments/CommentsController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/classes/java/main/com/jidang/Comments/CommentsForm.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/classes/java/main/com/jidang/Comments/CommentsRepository.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/classes/java/main/com/jidang/Comments/CommentsService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/classes/java/main/com/jidang/DataNotFoundException.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/classes/java/main/com/jidang/Game/Game.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/classes/java/main/com/jidang/Game/GameController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/classes/java/main/com/jidang/Game/GameRepository.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/classes/java/main/com/jidang/Game/GameService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/classes/java/main/com/jidang/JidangApplication.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/classes/java/main/com/jidang/Post/Post.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/classes/java/main/com/jidang/Post/PostController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/classes/java/main/com/jidang/Post/PostForm.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/classes/java/main/com/jidang/Post/PostRepository.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/classes/java/main/com/jidang/Post/PostService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/classes/java/main/com/jidang/PostTag/PostTag.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/classes/java/main/com/jidang/PostTag/PostTagRepository.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/classes/java/main/com/jidang/SecurityConfig.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/classes/java/main/com/jidang/Tag/Tag.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/classes/java/main/com/jidang/Tag/TagController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/classes/java/main/com/jidang/Tag/TagRepository.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/classes/java/main/com/jidang/Tag/TagService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/classes/java/main/com/jidang/WebMvcConfig.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/classes/java/main/com/jidang/controller/MainController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/classes/java/main/com/jidang/user/SiteUser.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/classes/java/main/com/jidang/user/UserController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/classes/java/main/com/jidang/user/UserCreateForm.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/classes/java/main/com/jidang/user/UserRepository.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/classes/java/main/com/jidang/user/UserRole.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/classes/java/main/com/jidang/user/UserSecurityService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/classes/java/main/com/jidang/user/UserService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/classes/java/test/com/jidang/JidangApplicationTests.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/reports/problems/problems-report.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/resources/main/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/resources/main/static/css/login.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/resources/main/static/css/mainpage.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/resources/main/static/css/singup.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/resources/main/static/css/style.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/resources/main/static/images/banner/Pilgrimage-of-Compassion.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/resources/main/static/images/banner/limbus9season.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/resources/main/static/images/banner/reverseBeryl.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/resources/main/static/images/banner/붕스어제의내일이되어.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/resources/main/static/images/banner/블아공식팝업.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/resources/main/static/images/banner/시협회파우웅.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/resources/main/static/images/banner/원신네페르.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/resources/main/static/images/banner/플린스배너.webp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/resources/main/static/images/banner/필두쌈닭.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/resources/main/static/images/대전차지뢰.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/resources/main/static/images/리버스버틴.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/resources/main/static/images/마법소녀돈키.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/resources/main/static/images/반디그긴거.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/resources/main/static/images/슈나장비틱죽어.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/resources/main/static/images/시협회파우웅.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/resources/main/static/images/키릴-추도미르비치-플린스.webp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/resources/main/static/images/플린스배너.webp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/resources/main/static/js/mainpage.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/resources/main/templates/home.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/resources/main/templates/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/resources/main/templates/login.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/resources/main/templates/mainpage.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/resources/main/templates/searchlist.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/resources/main/templates/signup_form.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/build/tmp/compileTestJava/previous-compilation-data.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/src/main/java/com/jidang/Post/PostController.java" beforeDir="false" afterPath="$PROJECT_DIR$/jidang-project/jidang/src/main/java/com/jidang/Post/PostController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/jidang-project/jidang/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/jidang-project/jidang/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jidang-project/jidang/src/main/resources/templates/postlist_tag_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/jidang-project/jidang/src/main/resources/templates/postlist_tag_page.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -121,30 +58,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
-    &quot;Gradle.jidang [:com.jidang.JidangApplication.main()].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.jidang [:com.jidang.user.UserService.main()].executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;second&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/GitHub/2025-2_jidang&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;SDK&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;File.Encoding&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultHtmlFileTemplate": "HTML File",
+    "Gradle.jidang [:com.jidang.JidangApplication.main()].executor": "Run",
+    "Gradle.jidang [:com.jidang.user.UserService.main()].executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/GitHub/2025-2_jidang",
+    "project.structure.last.edited": "SDK",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "File.Encoding"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\GitHub\2025-2_jidang\jidang-project\jidang\DB" />
     </key>
   </component>
-  <component name="RunManager" selected="애플리케이션.JidangApplication">
+  <component name="RunManager" selected="Application.JidangApplication">
     <configuration name="JidangApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.jidang.JidangApplication" />
       <module name="jidang-project.main" />

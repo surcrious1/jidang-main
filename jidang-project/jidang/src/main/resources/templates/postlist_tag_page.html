@@ -9,29 +9,34 @@
     <link rel="stylesheet" th:href="@{/css/postlist.css}">
 </th:block>
 
-<!-- 본문 영역 -->
-<!-- 헤더는 구성요소가 다르기때문에 이름을 다르게 두어 설정 -->
+<!-- ================================
+        본문 영역
+================================ -->
 <div th:fragment="content" class="postlist-tag-page">
 
+    <!-- =============================
+            게임 헤더 영역
+    ============================== -->
     <section class="community-header">
         <div class="community-header-inner">
 
-            <!-- 왼쪽 : 커뮤니티 아이콘 + 텍스트 묶음 -->
+            <!-- 왼쪽 : 게임 이미지 + 정보 -->
             <div class="community-left">
-                <!-- 게임 이미지: Game.thumbnail 사용 -->
+
+                <!-- 게임 이미지 -->
                 <img class="game-header-img"
                      th:src="@{${game.thumbnail}}"
                      alt="게임 이미지">
 
+                <!-- 게임 이름 + 설명 -->
                 <div class="community-text">
-                    <!-- 한글 이름 -->
                     <h1 class="header-title" th:text="${game.name}">게임 이름</h1>
 
-                    <!-- 설명 -->
                     <p class="header-desc"
                        th:utext="${game.description != null ? game.description.replaceAll('\n', '<br/>') : ''}">
                     </p>
                 </div>
+
             </div>
 
             <!-- 오른쪽 : 글쓰기 버튼 -->
@@ -44,7 +49,9 @@
     </section>
 
 
-
+    <!-- =============================
+          게시물 리스트 영역
+    ============================== -->
     <section class="post-list">
 
         <!-- 게시물 카드 반복 -->
@@ -52,17 +59,19 @@
                  th:each="post : ${posts}"
                  th:attr="data-href=@{|/post/detail/${post.id}|}">
 
-            <!-- 태그 출력 (null-safe) -->
-            <div class="post-tag">
+            <!-- 🔥 게임 태그 + 게시물 태그 -->
+            <div class="post-tag-wrapper">
 
-                <!-- postTags가 존재하고 1개 이상일 때 -->
-                <span th:if="${post.postTags != null and post.postTags.size() > 0}"
-                      th:text="${post.postTags[0].tag != null ? post.postTags[0].tag.name : '태그없음'}">
+                <!-- 게임 태그 -->
+                <span class="tag-box game-tag"
+                      th:if="${post.game != null}"
+                      th:text="${post.game.name}">
                 </span>
 
-                <!-- postTags가 비었을 때 -->
-                <span th:if="${post.postTags == null or post.postTags.size() == 0}">
-                    태그없음
+                <!-- 게시물 태그 -->
+                <span class="tag-box post-tag"
+                      th:if="${post.postTags != null and post.postTags.size() > 0}"
+                      th:text="${post.postTags[0].tag.name}">
                 </span>
 
             </div>
@@ -70,30 +79,36 @@
             <!-- 제목 -->
             <h2 class="post-title" th:text="${post.subject}">게시글 제목</h2>
 
-            <!-- 본문 내용 요약 -->
+            <!-- 요약 -->
             <p class="post-excerpt"
                th:text="${#strings.abbreviate(post.content, 80)}">
             </p>
 
-            <!-- 작성자 + 날짜 (완전 null-safe) -->
+            <!-- 작성자 + 날짜 -->
             <div class="post-meta">
-                <!-- 선택된 칭호가 존재하고, '선택안함'이 아닐 경우만 표시 -->
+
+                <!-- 칭호 -->
                 <span th:if="${post.author != null
                     and post.author.selectedTitle != null
                     and post.author.selectedTitle != ''
                     and post.author.selectedTitle != '선택안함'}"
                       class="author-title">
-                        [<span th:text="${post.author.selectedTitle}"></span>]
-                    </span>
+                    [<span th:text="${post.author.selectedTitle}"></span>]
+                </span>
 
+                <!-- 작성자 이름 -->
                 <span th:text="${post.author != null ? post.author.username : '알 수 없음'}"></span>
+
                 <span class="post-meta-dot"></span>
+
+                <!-- 글 작성 시간 -->
                 <span th:text="${post.createDate != null ? post.createDate : ''}"></span>
+
             </div>
 
-            <!-- 좋아요(개수만 출력) -->
+            <!-- 좋아요 -->
             <div class="post-footer">
-                <div class="stat stat-like">
+                <div class="stat">
                     <span class="stat-icon">❤</span>
                     <span th:text="${post.liker != null ? #lists.size(post.liker) : 0}">0</span>
                 </div>
@@ -109,6 +124,7 @@
     </section>
 
 </div>
+
 
 <!-- 페이지 전용 JS -->
 <th:block th:fragment="scripts">
