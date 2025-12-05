@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>칭호 관리 페이지</title>
+</head>
+<body>
+
+<th:block th:replace="index :: layout(~{::content}, ~{::scripts}, ~{::css})">
+
+    <th:block th:fragment="css">
+        <style>
+            /* titlepage.html 고유의 스타일 */
+            body { font-family: Arial, sans-serif; padding: 20px; max-width: 800px; margin: auto; }
+            h2, h3 { color: #333; }
+            hr { margin: 20px 0; border-top: 1px solid #eee; }
+            ul { list-style: none; padding: 0; }
+            li { padding: 10px 0; border-bottom: 1px dashed #eee; display: flex; align-items: center; justify-content: space-between; }
+            li:last-child { border-bottom: none; }
+            .title-info { font-size: 1.1em; font-weight: 500; }
+            /* 버튼 스타일 */
+            .btn { padding: 5px 10px; border: none; border-radius: 3px; cursor: pointer; font-size: 0.9em; }
+            .btn-primary { background-color: #007bff; color: white; }
+            .btn-primary:disabled { background-color: #a0c3e7; cursor: not-allowed; }
+            .current-title-badge { color: green; font-weight: bold; margin-left: 10px; }
+        </style>
+    </th:block>
+
+    <div th:fragment="content" class="title-management-container">
+
+        <h2 th:text="|${user.username} 님의 칭호 관리|">칭호 관리</h2>
+
+        <hr>
+
+        <h3>
+            현재 대표 칭호:
+            <span th:text="${user.selectedTitle ?: '없음'}"></span>
+        </h3>
+
+        <hr>
+
+        <h3>획득한 칭호 목록 (<span th:text="${#sets.size(user.titles)}">0</span>개)</h3>
+
+        <ul th:if="${user.titles != null and !#sets.isEmpty(user.titles)}">
+
+            <li th:each="title : ${user.titles}">
+
+                <span class="title-info" th:text="${title}">칭호 이름</span>
+
+                <div style="display: flex; align-items: center;">
+
+                    <span th:if="${title == user.selectedTitle}" class="current-title-badge">(현재 대표 칭호)</span>
+
+                    <form th:action="@{/user/selectTitle}" method="post" style="display: inline; margin-left: 15px;">
+
+                        <input type="hidden" name="titleName" th:value="${title}">
+
+                        <button type="submit"
+                                class="btn btn-sm btn-primary"
+                                th:disabled="${title == user.selectedTitle}">
+                            대표 칭호로 설정
+                        </button>
+                    </form>
+
+                </div>
+            </li>
+        </ul>
+
+        <div th:if="${#sets.isEmpty(user.titles)}">
+            <p>아직 획득한 칭호가 없습니다. 게시물 작성 등을 통해 칭호를 획득해 보세요!</p>
+        </div>
+
+        <hr>
+
+        <a th:href="@{/user/mypage}">마이페이지로 돌아가기</a>
+
+    </div>
+
+    <th:block th:fragment="scripts">
+    </th:block>
+
+</th:block>
+
+</body>
+</html>
