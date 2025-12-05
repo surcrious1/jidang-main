@@ -42,7 +42,11 @@ public class CommentsController {
         Post post = this.postService.getPost(id);
         if (bindingResult.hasErrors()) {
             model.addAttribute("post", post);
-            return "post_detail"; //아직 이 html없음
+            if (principal != null) {
+                model.addAttribute("principal", principal);
+            }
+            return "test_post_detail"; //아직 이 html없음
+
         }
         SiteUser siteUser = this.userService.getUser(principal.getName());
 
@@ -53,11 +57,13 @@ public class CommentsController {
     //수정버튼 눌렀을 시 실행될 url
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/modify/{id}")
-    public String commentsModify(CommentsForm commentsForm, @PathVariable("id") Integer id, Principal principal) {
+    public String commentsModify(CommentsForm commentsForm, @PathVariable("id") Integer id, Principal principal,Model model) {
         Comments comments = this.commentsService.getcomments(id);
         if (!comments.getAuthor().getUsername().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
         }
+
+        model.addAttribute("commentId", id);
         commentsForm.setContent(comments.getContent());
         return "comments_form";
     }
@@ -67,8 +73,9 @@ public class CommentsController {
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/modify/{id}")
     public String commentsModify(@Valid CommentsForm commentsForm, BindingResult bindingResult,
-                               @PathVariable("id") Integer id, Principal principal) {
+                               @PathVariable("id") Integer id, Principal principal,Model model) {
         if (bindingResult.hasErrors()) {
+            model.addAttribute("commentId", id);
             return "comments_form";
         }
         Comments comments = this.commentsService.getcomments(id);
