@@ -73,11 +73,11 @@ main {
 }
 
 .nav-links a:hover {
-  color: #ff784e;
+  color: #715cff;
 }
 
 .nav-links a.active {
-  color: #ff5722;
+  color: #715cff;
 }
 
 /* ============================

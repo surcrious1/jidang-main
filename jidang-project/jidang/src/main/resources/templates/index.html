@@ -26,8 +26,8 @@
 
         <!-- PC 메뉴 -->
         <nav class="nav-links">
-            <a href="/community" th:classappend="${activePage == 'community'} ? 'active'">커뮤니티</a>
-            <a href="/games" th:classappend="${activePage == 'games'} ? 'active'">게임</a>
+            <a th:href="@{/post/community}" th:classappend="${activePage == 'community'} ? 'active'">커뮤니티</a>
+            <a th:href="@{/#game-section}" th:classappend="${activePage == 'games'} ? 'active'">게임</a>
             <a href="/guides" th:classappend="${activePage == 'guides'} ? 'active'">공략</a>
             <a href="/official" th:classappend="${activePage == 'official'} ? 'active'">공식</a>
             <a href="/achievements" th:classappend="${activePage == 'achievements'} ? 'active'">업적</a>

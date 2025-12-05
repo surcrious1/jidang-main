@@ -1,19 +1,17 @@
 package com.jidang.Post;
 
 import java.util.List;
+import java.util.ArrayList;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;//html파일을 띄우려면 이것도 없애도 됨
 
 import org.springframework.ui.Model;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.PathVariable;
-
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.validation.Valid;
 import org.springframework.validation.BindingResult;
@@ -24,14 +22,18 @@ import java.security.Principal;
 import com.jidang.user.SiteUser;
 import com.jidang.user.UserService;
 
-import org.springframework.security.access.prepost.PreAuthorize;//로그아웃 상태면 principal가 널이라서 오류뜨는걸 해결
-
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.jidang.Post.DTO.PostSearchCondition;
+
+import com.jidang.Post.DTO.GameInfo;
+import java.util.Map;
+import java.util.HashMap;
+
 
 @RequestMapping("/post")
 @RequiredArgsConstructor
@@ -41,141 +43,216 @@ public class PostController {
     private final PostService postService;
     private final UserService userService;
 
+    /* ===============================
+        게임 정보 매핑 (DB 없이 slug → 이미지/이름/설명 연결)
+    =============================== */
+
+    private static final Map<String, GameInfo> GAME_INFO = new HashMap<>();
+
+    static {
+        GAME_INFO.put("genshin", new GameInfo("원신", "/images/키릴-추도미르비치-플린스.webp", "플린스 결혼해줘"));
+        GAME_INFO.put("limbus", new GameInfo("림버스 컴퍼니", "/images/마법소녀돈키.jpeg", "관리자 나리~~~!!!!!!"));
+        GAME_INFO.put("starrail", new GameInfo("스타레일", "/images/반디그긴거.jpeg", "붕괴 오마주 게임"));
+        GAME_INFO.put("re1999", new GameInfo("리버스 1999", "/images/리버스버틴.jpeg", "폭풍우 후에엥"));
+        GAME_INFO.put("bluearchive", new GameInfo("블루아카이브", "/images/대전차지뢰.jpeg", "몰?루"));
+    }
+
+    /* ============================================================
+       ① 기존 리스트 (테스트 페이지)
+       ============================================================ */
     @GetMapping("/list")
     public String list(Model model) {
         List<Post> postList = this.postService.getList();
-        model.addAttribute("postList", postList);
-        return "test_post_list"; //화면에 post list 문구 테스트 출력
+        model.addAttribute("posts", postList);
+        return "test_post_list";
     }
 
-    @GetMapping(value = "/detail/{id}")
-    public String detail(Model model, @PathVariable("id") Integer id,CommentsForm commentsForm) {
+    /* ============================================================
+       ② 상세 페이지
+       ============================================================ */
+    @GetMapping("/detail/{id}")
+    public String detail(Model model, @PathVariable("id") Integer id, CommentsForm commentsForm) {
         Post post = this.postService.getPost(id);
         model.addAttribute("post", post);
         return "searchlist";
     }
 
-    //@ResponseBody //아직 질문등록 html없음
-    //사용자가 게시물을 입력하는 화면을 보여주는 곳
+    /* ============================================================
+       ③ 게시물 작성 화면
+       ============================================================ */
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/create")
     public String postCreate(PostForm postForm) {
         return "test_post_create";
     }
 
-    //실제로 db에 게시물을 업로드 하는 곳
-    //게시물 생성 (파일 업로드 기능 추가)
-    // PostController.java (수정된 postCreate 함수)
-    // @ResponseBody //아직 Post_form html없음
+    /* ============================================================
+       ④ 게시물 생성 (파일 + 태그 + 게임 종류)
+       ============================================================ */
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/create")
-    public String postCreate(@Valid PostForm postForm, BindingResult bindingResult, Principal principal) throws Exception {
-        
-        // 1. 유효성 검사 (기존과 동일)
+    public String postCreate(
+            @Valid PostForm postForm,
+            BindingResult bindingResult,
+            Principal principal) throws Exception {
+
         if (bindingResult.hasErrors()) {
-            return "test_post_create"; // 템플릿 이름이 대소문자 구분되므로 post_form으로 통일 권장
+            return "test_post_create";
         }
 
-        // 2. 작성자 정보 가져오기 (기존과 동일)
         SiteUser siteUser = this.userService.getUser(principal.getName());
-
-        // 3. 폼에서 파일 꺼내기 (추가된 부분)
         MultipartFile file = postForm.getFile();
-
-        //게임 종류 폼에서 꺼내기
         String gameSlug = postForm.getGameSlug();
 
-        // 4. 서비스 호출 (태그와 파일을 한 번에 넘기도록 수정)
-        // PostService의 create 메서드 파라미터 순서와 일치해야 함
         this.postService.create(
                 postForm.getSubject(),
                 postForm.getContent(),
                 siteUser,
-                postForm.getTagNames(), // 태그 리스트
-                file,                    // 파일 객체
+                postForm.getTagNames(),
+                file,
                 gameSlug
         );
 
-        // 5. 리다이렉트
-        return "redirect:/post/list";
+        return "redirect:/post/community";
     }
 
-
-    //게시물 수정
+    /* ============================================================
+       ⑤ 게시물 수정
+       ============================================================ */
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/modify/{id}")
     public String postModify(PostForm postForm, @PathVariable("id") Integer id, Principal principal) {
         Post post = this.postService.getPost(id);
-        if(!post.getAuthor().getUsername().equals(principal.getName())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
+
+        if (!post.getAuthor().getUsername().equals(principal.getName())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정 권한이 없습니다.");
         }
+
         postForm.setSubject(post.getSubject());
         postForm.setContent(post.getContent());
         return "Post_form";
     }
 
-    //수정된 게시물 저장(Post형식으로 받기)
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/modify/{id}")
-    public String questionModify(@Valid PostForm postForm, BindingResult bindingResult,
-                                 Principal principal, @PathVariable("id") Integer id) {
+    public String postModify(
+            @Valid PostForm postForm,
+            BindingResult bindingResult,
+            Principal principal,
+            @PathVariable("id") Integer id) {
+
         if (bindingResult.hasErrors()) {
             return "Post_form";
         }
-        Post question = this.postService.getPost(id);
-        if (!question.getAuthor().getUsername().equals(principal.getName())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
+
+        Post post = this.postService.getPost(id);
+
+        if (!post.getAuthor().getUsername().equals(principal.getName())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정 권한이 없습니다.");
         }
-        this.postService.modify(question, postForm.getSubject(), postForm.getContent());
+
+        this.postService.modify(post, postForm.getSubject(), postForm.getContent());
         return String.format("redirect:/post/detail/%s", id);
     }
 
-    //게시물 삭제
+    /* ============================================================
+       ⑥ 게시물 삭제
+       ============================================================ */
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/delete/{id}")
-    public String questionDelete(Principal principal, @PathVariable("id") Integer id) {
+    public String postDelete(Principal principal, @PathVariable("id") Integer id) {
         Post post = this.postService.getPost(id);
+
         if (!post.getAuthor().getUsername().equals(principal.getName())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제권한이 없습니다.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제 권한이 없습니다.");
         }
+
         this.postService.delete(post);
-        return "redirect:/";
+        return "redirect:/post/community";
     }
 
-    //좋아요 URL 추가
+    /* ============================================================
+       ⑦ 좋아요 toggle
+       ============================================================ */
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/like/{id}")
     public String postLike(Principal principal, @PathVariable("id") Integer id) {
         Post post = this.postService.getPost(id);
         SiteUser user = this.userService.getUser(principal.getName());
 
-        // 이미 '좋아요'를 눌렀는지 확인
         if (post.getLiker().contains(user)) {
-            this.postService.unlike(post, user); // 눌렀으면 취소
+            this.postService.unlike(post, user);
         } else {
-            this.postService.like(post, user); // 안 눌렀으면 추가
+            this.postService.like(post, user);
         }
-        
+
         return String.format("redirect:/post/detail/%s", id);
     }
 
+    /* ============================================================
+       ⑧ 커뮤니티 전체 게시물 페이지 (네비 연결)
+       URL: /post/community
+       ============================================================ */
+    @GetMapping("/community")
+    public String community(PostSearchCondition condition, Model model) {
 
-    /**
-     * 통합 검색 엔드포인트
-     * URL 예시: /post/search?keyword=공략&gameType=롤&tags=꿀팁&tags=재미
-     */
+        // null-safe
+        condition.setTags(null);
+
+        List<Post> posts = postService.search(condition);
+
+        model.addAttribute("posts", posts);
+        model.addAttribute("activePage", "community");
+
+        return "community";
+    }
+
+    /* ============================================================
+       ⑨ 태그별 게시물 목록
+       URL: /post/tag/{tagName}
+       ============================================================ */
+    @GetMapping("/tag/{tagName}")
+    public String listByTag(@PathVariable("tagName") String tagName,
+                            PostSearchCondition condition,
+                            Model model) {
+
+        if (condition.getTags() == null) {
+            condition.setTags(new ArrayList<>());
+        } else {
+            condition.getTags().clear();
+        }
+
+        condition.getTags().add(tagName);
+        List<Post> posts = postService.search(condition);
+
+        model.addAttribute("posts", posts);
+        model.addAttribute("currentTag", tagName);
+
+        /* ============================================================
+       게임 정보 매핑 (MAP 기반)
+       ============================================================ */
+        GameInfo info = GAME_INFO.get(tagName);
+        if (info != null) {
+            model.addAttribute("gameName", info.getName());
+            model.addAttribute("gameImage", info.getImage());
+            model.addAttribute("gameDesc", info.getDesc());
+        }
+
+        return "postlist_tag_page";
+    }
+
+    /* ============================================================
+       ⑩ 검색 기능
+       ============================================================ */
     @GetMapping("/search")
     public String searchPosts(PostSearchCondition condition, Model model) {
 
-        // 1. Service의 통합 검색 메서드 호출
         List<Post> searchResults = postService.search(condition);
 
-        // 2. 뷰에 데이터 전달
         model.addAttribute("posts", searchResults);
-        model.addAttribute("searchCondition", condition); // 뷰에서 검색어 유지를 위해 전달
+        model.addAttribute("searchCondition", condition);
 
-        return "test_post_list"; // 게시물 데이터(posts)를 반복문으로 출력하도록 구성된 템플릿의 이름
+        return "community";
     }
-
 
 }
