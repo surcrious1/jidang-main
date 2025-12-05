@@ -1,6 +1,7 @@
 package com.jidang.Comments;
 
 import com.jidang.Post.Post;
+import com.jidang.Title.TitleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ import com.jidang.DataNotFoundException;
 @Service
 public class CommentsService {
     private final CommentsRepository commentsRepository;
+    private final TitleService titleService;
 
 
     public void create(Post post, String content,SiteUser author, Integer parentId) {
@@ -31,6 +33,8 @@ public class CommentsService {
             comments.setParent(parent);
         }
         this.commentsRepository.save(comments);
+
+        titleService.checkAndGrantTitles(author);
     }
 
     //답변 조회(수정을 위한)
