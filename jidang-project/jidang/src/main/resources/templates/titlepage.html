@@ -1,85 +1,137 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>칭호 관리 페이지</title>
-</head>
-<body>
 
 <th:block th:replace="index :: layout(~{::content}, ~{::scripts}, ~{::css})">
 
+    <!-- ✅ CSS 분리 -->
     <th:block th:fragment="css">
-        <style>
-            /* titlepage.html 고유의 스타일 */
-            body { font-family: Arial, sans-serif; padding: 20px; max-width: 800px; margin: auto; }
-            h2, h3 { color: #333; }
-            hr { margin: 20px 0; border-top: 1px solid #eee; }
-            ul { list-style: none; padding: 0; }
-            li { padding: 10px 0; border-bottom: 1px dashed #eee; display: flex; align-items: center; justify-content: space-between; }
-            li:last-child { border-bottom: none; }
-            .title-info { font-size: 1.1em; font-weight: 500; }
-            /* 버튼 스타일 */
-            .btn { padding: 5px 10px; border: none; border-radius: 3px; cursor: pointer; font-size: 0.9em; }
-            .btn-primary { background-color: #007bff; color: white; }
-            .btn-primary:disabled { background-color: #a0c3e7; cursor: not-allowed; }
-            .current-title-badge { color: green; font-weight: bold; margin-left: 10px; }
-        </style>
+        <link rel="stylesheet" th:href="@{/css/title.css}">
     </th:block>
 
-    <div th:fragment="content" class="title-management-container">
+    <!-- ✅ 본문 -->
+    <div th:fragment="content" class="achievements-container">
 
-        <h2 th:text="|${user.username} 님의 칭호 관리|">칭호 관리</h2>
+        <!-- 상단 헤더: 왼쪽 제목, 오른쪽 버튼들 -->
+        <header class="achievements-header">
+            <h1>업적</h1>
 
-        <hr>
+            <div class="header-actions">
+                <!-- 대표 칭호 선택 안 함 -->
+                <form th:action="@{/title/select}" method="post" class="clear-title-form">
+                    <input type="hidden" name="title" value="" />
+                    <button type="submit" class="clear-title-btn">
+                        대표 칭호 선택 안 함
+                    </button>
+                </form>
 
-        <h3>
-            현재 대표 칭호:
-            <span th:text="${user.selectedTitle ?: '없음'}"></span>
-        </h3>
+                <!-- 마이페이지에서 대표 칭호 확인 -->
+                <a class="selected-title-btn" th:href="@{/user/mypage}">
+                    선택된 칭호 확인하기
+                </a>
+            </div>
+        </header>
 
-        <hr>
-
-        <h3>획득한 칭호 목록 (<span th:text="${#sets.size(user.titles)}">0</span>개)</h3>
-
-        <ul th:if="${user.titles != null and !#sets.isEmpty(user.titles)}">
-
-            <li th:each="title : ${user.titles}">
-
-                <span class="title-info" th:text="${title}">칭호 이름</span>
-
-                <div style="display: flex; align-items: center;">
-
-                    <span th:if="${title == user.selectedTitle}" class="current-title-badge">(현재 대표 칭호)</span>
-
-                    <form th:action="@{/user/selectTitle}" method="post" style="display: inline; margin-left: 15px;">
-
-                        <input type="hidden" name="titleName" th:value="${title}">
-
-                        <button type="submit"
-                                class="btn btn-sm btn-primary"
-                                th:disabled="${title == user.selectedTitle}">
-                            대표 칭호로 설정
-                        </button>
-                    </form>
-
-                </div>
-            </li>
-        </ul>
-
-        <div th:if="${#sets.isEmpty(user.titles)}">
-            <p>아직 획득한 칭호가 없습니다. 게시물 작성 등을 통해 칭호를 획득해 보세요!</p>
+        <!-- 탭 버튼 -->
+        <div class="achievements-tabs">
+            <button class="tab-btn active" data-tab="earned">획득한 업적</button>
+            <button class="tab-btn" data-tab="locked">미획득 업적</button>
         </div>
 
-        <hr>
+        <!-- ▽ 획득한 업적 탭 -->
+        <section class="tab-panel active" id="tab-earned">
+            <div class="achievement-grid">
 
-        <a th:href="@{/user/mypage}">마이페이지로 돌아가기</a>
+                <!-- 업적 없을 때 -->
+                <p class="empty-text"
+                   th:if="${earnedTitles == null or #lists.isEmpty(earnedTitles)}">
+                    아직 획득한 업적이 없습니다.
+                </p>
 
+                <!-- 업적 카드 + 대표 칭호 설정 -->
+                <form th:each="t : ${earnedTitles}"
+                      th:action="@{/title/select}"
+                      method="post"
+                      class="achievement-card-form">
+
+                    <!-- 대표 칭호로 보낼 값 -->
+                    <input type="hidden" name="title" th:value="${t.displayName}"/>
+
+                    <article class="achievement-card"
+                             th:classappend="${selectedTitle == t.displayName} ? ' selected'">
+
+                        <div class="achievement-icon">
+                            <span th:text="${t.icon}">🏆</span>
+                        </div>
+
+                        <h2 class="achievement-title" th:text="${t.displayName}">
+                            공략마스터
+                        </h2>
+
+                        <p class="achievement-desc" th:text="${t.description}">
+                            공략 태그 글 5개 이상 작성
+                        </p>
+
+                        <div class="achievement-footer">
+              <span class="achievement-tag" th:text="${t.category}">
+                공략
+              </span>
+
+                            <!-- 아직 대표 칭호가 아니라면 버튼 -->
+                            <button type="submit"
+                                    class="set-title-btn"
+                                    th:if="${selectedTitle != t.displayName}">
+                                대표 칭호로 설정
+                            </button>
+
+                            <!-- 이미 대표 칭호라면 뱃지 -->
+                            <span class="achievement-badge"
+                                  th:if="${selectedTitle == t.displayName}">
+                대표 칭호 사용 중
+              </span>
+                        </div>
+                    </article>
+                </form>
+            </div>
+        </section>
+
+        <!-- ▽ 미획득 업적 탭 -->
+        <section class="tab-panel" id="tab-locked">
+            <div class="achievement-grid">
+
+                <p class="empty-text"
+                   th:if="${lockedTitles == null or #lists.isEmpty(lockedTitles)}">
+                    아직 잠금 상태의 업적이 없습니다.
+                </p>
+
+                <article class="achievement-card locked"
+                         th:each="t : ${lockedTitles}">
+                    <div class="achievement-icon">
+                        <span th:text="${t.icon}">🔒</span>
+                    </div>
+
+                    <h2 class="achievement-title" th:text="${t.displayName}">
+                        수다쟁이
+                    </h2>
+
+                    <p class="achievement-desc" th:text="${t.description}">
+                        댓글 20개 이상 작성
+                    </p>
+
+                    <div class="achievement-footer">
+            <span class="achievement-tag" th:text="${t.category}">
+              커뮤니티
+            </span>
+                    </div>
+                </article>
+            </div>
+        </section>
     </div>
 
+    <!-- ✅ JS 분리 -->
     <th:block th:fragment="scripts">
+        <script th:src="@{/js/title.js}"></script>
     </th:block>
 
 </th:block>
 
-</body>
 </html>

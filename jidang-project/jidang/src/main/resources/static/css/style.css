@@ -50,7 +50,7 @@ main {
 
 /* 로고 */
 .logo a {
-  color: #fff;
+  color: #715cff;
   font-size: 1.3rem;
   font-weight: bold;
   text-decoration: none;
@@ -115,7 +115,7 @@ main {
 .search-form input {
   padding: 5px 10px;
   border-radius: 6px;
-  border: 1px solid #444;
+  border: 1px solid #333;
   outline: none;
   background: #1b1b1b;
   color: #fff;
@@ -129,7 +129,7 @@ main {
     모바일 메뉴
 ============================ */
 .mobile-menu {
-  background: #181818;
+  background: #1e1e1e;
   border-top: 1px solid #333;
   display: none;           /* ← 기본 숨김 */
   flex-direction: column;
@@ -145,7 +145,7 @@ main {
 }
 
 .mobile-menu a:hover {
-  color: #ff784e;
+  color: #715cff;
 }
 
 /* 숨김 클래스 */

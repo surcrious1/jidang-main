@@ -96,4 +96,5 @@ public class UserController {
 
         return "mypage"; // mypage.html 템플릿 반환
     }
+
 }

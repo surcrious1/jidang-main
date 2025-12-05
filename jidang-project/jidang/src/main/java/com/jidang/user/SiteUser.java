@@ -39,7 +39,7 @@ public class SiteUser {
     // DB에는 site_user_titles 라는 별도 테이블이 자동 생성됩니다.
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<String> titles = new HashSet<>();
-    
+
     // 칭호 추가 편의 메서드
     public void addTitle(String title) {
         this.titles.add(title);
@@ -49,4 +49,6 @@ public class SiteUser {
     @Column(length = 50)
     private String selectedTitle;
     // 이 필드에는 사용자가 선택한 칭호 이름(String)이 저장됩니다.
+
+
 }
