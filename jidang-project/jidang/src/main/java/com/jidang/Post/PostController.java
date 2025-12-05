@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 
 import jakarta.validation.Valid;
 import org.springframework.validation.BindingResult;
@@ -33,6 +34,8 @@ import com.jidang.Post.DTO.PostSearchCondition;
 import com.jidang.Post.DTO.GameInfo;
 import java.util.Map;
 import java.util.HashMap;
+
+import java.security.Principal;
 
 
 @RequestMapping("/post")
@@ -71,14 +74,16 @@ public class PostController {
        ② 상세 페이지
        ============================================================ */
     @GetMapping("/detail/{id}")
-    public String detail(Model model, @PathVariable("id") Integer id, CommentsForm commentsForm) {
+    public String detail(Model model, @PathVariable("id") Integer id, CommentsForm commentsForm, Principal principal) {
 
         Post post = this.postService.getPost(id);  // ← Post 엔티티 1개 조회
 
         model.addAttribute("post", post);          // ← 상세 페이지에서 사용할 데이터
         model.addAttribute("commentsForm", commentsForm); // 나중에 댓글 기능에 사용 예정
-
-        return "postdeatil";
+        if (principal != null) {
+            model.addAttribute("principal", principal);
+        }
+        return "test_post_detail";
     }
 
     /* ============================================================
@@ -163,7 +168,7 @@ public class PostController {
        ⑥ 게시물 삭제
        ============================================================ */
     @PreAuthorize("isAuthenticated()")
-    @GetMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public String postDelete(Principal principal, @PathVariable("id") Integer id) {
         Post post = this.postService.getPost(id);
 
