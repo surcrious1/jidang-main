@@ -45,7 +45,7 @@ public class PostController {
     public String list(Model model) {
         List<Post> postList = this.postService.getList();
         model.addAttribute("postList", postList);
-        return "searchlist"; //화면에 post list 문구 테스트 출력
+        return "test_post_list"; //화면에 post list 문구 테스트 출력
     }
 
     @GetMapping(value = "/detail/{id}")
@@ -56,13 +56,14 @@ public class PostController {
     }
 
     //@ResponseBody //아직 질문등록 html없음
+    //사용자가 게시물을 입력하는 화면을 보여주는 곳
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/create")
     public String postCreate(PostForm postForm) {
-        return "post_form";
+        return "test_post_create";
     }
 
-    
+    //실제로 db에 게시물을 업로드 하는 곳
     //게시물 생성 (파일 업로드 기능 추가)
     // PostController.java (수정된 postCreate 함수)
     // @ResponseBody //아직 Post_form html없음
@@ -72,7 +73,7 @@ public class PostController {
         
         // 1. 유효성 검사 (기존과 동일)
         if (bindingResult.hasErrors()) {
-            return "post_form"; // 템플릿 이름이 대소문자 구분되므로 post_form으로 통일 권장
+            return "test_post_create"; // 템플릿 이름이 대소문자 구분되므로 post_form으로 통일 권장
         }
 
         // 2. 작성자 정보 가져오기 (기존과 동일)
@@ -81,6 +82,9 @@ public class PostController {
         // 3. 폼에서 파일 꺼내기 (추가된 부분)
         MultipartFile file = postForm.getFile();
 
+        //게임 종류 폼에서 꺼내기
+        String gameSlug = postForm.getGameSlug();
+
         // 4. 서비스 호출 (태그와 파일을 한 번에 넘기도록 수정)
         // PostService의 create 메서드 파라미터 순서와 일치해야 함
         this.postService.create(
@@ -88,7 +92,8 @@ public class PostController {
                 postForm.getContent(),
                 siteUser,
                 postForm.getTagNames(), // 태그 리스트
-                file                    // 파일 객체
+                file,                    // 파일 객체
+                gameSlug
         );
 
         // 5. 리다이렉트

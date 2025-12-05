@@ -134,13 +134,20 @@ public class PostService {
 
     // 태그 + 파일 업로드 지원 create 메서드
     @Transactional
-    public Post create(String subject, String content, SiteUser user, List<String> tagNames, MultipartFile file) throws Exception {
+    public Post create(String subject, String content, SiteUser user, List<String> tagNames, MultipartFile file, String gameSlug) throws Exception {
 
         Post newPost = new Post();
         newPost.setSubject(subject);
         newPost.setContent(content);
         newPost.setCreateDate(LocalDateTime.now());
         newPost.setAuthor(user);
+
+        // 1. 💡 Game 엔티티 조회 및 설정
+        Game game = gameRepository.findBySlug(gameSlug)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게임 Slug입니다: " + gameSlug));
+
+        // 💡 Post에 Game 객체 설정
+        newPost.setGame(game);
 
         // *** 파일 처리 로직 시작 ***
         if (file != null && !file.isEmpty()) {
@@ -167,6 +174,9 @@ public class PostService {
                 newPost.addPostTag(postTag);
             }
         }
+
+
+
         Post savedPost = postRepository.save(newPost); // 글 저장 완료
 
         // ✅ 3. 글 저장이 끝난 직후 칭호 체크 실행

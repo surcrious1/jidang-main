@@ -9,11 +9,20 @@
         table { width: 100%; border-collapse: collapse; margin-top: 15px; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
         th { background-color: #f2f2f2; }
+        /* 💡 추가된 스타일: 링크 버튼을 보기 좋게 만듭니다. */
+        .header-links { margin-bottom: 20px; }
+        .header-links a { display: inline-block; padding: 10px 15px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px; }
     </style>
 </head>
 <body>
 
 <h2>게시물 목록</h2>
+
+<div class="header-links">
+    <a th:href="@{/post/create-test}">테스트 게시물 생성 폼으로 이동</a>
+</div>
+
+<hr>
 
 <div th:if="${searchCondition}">
     <p class="search-results-info">
@@ -50,10 +59,10 @@
         <td><a th:href="@{|/post/detail/${post.id}|}" th:text="${post.subject}"></a></td>
         <td th:text="${post.game?.name}"></td>
         <td>
-                    <span th:each="postTag, loopStat : ${post.postTags}">
-                        <span th:text="${postTag.tag.name}"></span>
-                        <span th:if="${!loopStat.last}">, </span>
-                    </span>
+<span th:each="postTag, loopStat : ${post.postTags}">
+<span th:text="${postTag.tag.name}"></span>
+<span th:if="${!loopStat.last}">, </span>
+</span>
         </td>
         <td th:text="${post.liker}"></td>
     </tr>
