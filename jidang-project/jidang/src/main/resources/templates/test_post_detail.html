@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title th:text="${post?.subject}?: '게시물 제목'">게시물 제목</title>
+  <style>
+    /* CSS 스타일 추가: 대댓글 들여쓰기 */
+    .comment-area { margin-top: 20px; border-top: 1px solid #ccc; padding-top: 10px; }
+    .comment-item { border: 1px solid #eee; padding: 8px; margin-bottom: 5px; }
+    .reply-item { margin-left: 30px; border-left: 2px solid #ddd; padding-left: 10px; background-color: #f9f9f9; } /* 대댓글 스타일 */
+    textarea { width: 100%; box-sizing: border-box; }
+    .reply-form { display: none; margin-top: 5px; } /* 답글 폼 기본 숨김 */
+  </style>
+</head>
+<body>
+
+<div th:if="${post != null}">
+  <h2>게시물 제목: <span th:text="${post.subject}?: '제목 없음'"></span></h2>
+
+  <p>작성자: <span th:text="${post.author?.username}?: '탈퇴 사용자'"></span></p>
+
+  <hr>
+
+  <div th:utext="${post.content}?: '내용 없음'">게시물 내용</div>
+
+  <hr>
+</div>
+
+<div class="comment-area" th:if="${post != null}">
+
+  <h3>댓글 목록 (<span th:text="${#lists.size(post.commentsList)?: 0}">0</span>)</h3>
+
+  <div th:if="${#lists.isEmpty(post.commentsList)}">
+    <p style="text-align: center; color: #888; padding: 20px; border: 1px dashed #ccc;">
+      <strong>현재 작성된 댓글이 없습니다.</strong>
+    </p>
+  </div>
+
+  <div th:unless="${#lists.isEmpty(post.commentsList)}">
+
+    <div th:each="comment : ${post.commentsList}">
+
+      <div th:if="${#objects.nullSafe(comment.parent, null) == null}">
+
+        <div class="comment-item">
+          <p>
+            <strong><span th:text="${comment.author?.username}?: '탈퇴 사용자'"></span></strong>
+            <span style="font-size: 0.8em; color: #777;"
+                  th:text="${comment.createDate != null ? #temporals.format(comment.createDate, 'yyyy.MM.dd HH:mm') : ''}"></span>
+
+            <span th:if="${#objects.nullSafe(principal, null) != null}">
+              <span th:if="${#objects.nullSafe(comment.author, null) != null and comment.author.username == principal.name}">
+
+                <a th:href="@{|/comments/modify/${comment.id}|}" style="margin-left: 5px;">
+                    <button type="button">수정</button>
+                </a>
+
+                <a th:href="@{|/comments/delete/${comment.id}|}"
+                   onclick="return confirm('정말로 댓글을 삭제하시겠습니까?')"
+                   style="color:red; margin-left:5px;">
+                  <button type="button">삭제</button>
+                </a>
+
+
+              </span>
+            </span>
+
+          </p>
+          <p th:text="${comment.content}?: '내용 없음'">댓글 내용</p>
+
+          <button type="button" onclick="toggleReplyForm(this)"
+                  th:if="${#objects.nullSafe(principal, null) != null}">답글 달기</button>
+
+          <form class="reply-form"
+                th:action="@{|/comments/create/${post.id}|}" method="post">
+            <input type="hidden" name="parentId" th:value="${comment.id}">
+            <textarea name="content" placeholder="답글 내용" rows="1" style="width: 80%;"></textarea>
+            <button type="submit">등록</button>
+          </form>
+        </div>
+
+
+        <div th:if="${comment.replies != null}">
+          <div th:each="reply : ${comment.replies}">
+
+            <div class="comment-item reply-item">
+              <p>
+                <strong><span th:text="${reply.author?.username}?: '탈퇴 사용자'"></span></strong>
+                <span style="font-size: 0.8em; color: #555;">(답글)</span> <span style="font-size: 0.8em; color: #777;"
+                                                                               th:text="${reply.createDate != null ? #temporals.format(reply.createDate, 'yyyy.MM.dd HH:mm') : ''}"></span>
+
+                <span th:if="${#objects.nullSafe(principal, null) != null}">
+                   <span th:if="${#objects.nullSafe(reply.author, null) != null and reply.author.username == principal.name}">
+
+                       <a th:href="@{|/comments/modify/${reply.id}|}" style="margin-left: 5px;">
+                           <button type="button">수정</button>
+                       </a>
+
+                       <a th:href="@{|/comments/delete/${reply.id}|}"
+                          onclick="return confirm('정말로 댓글을 삭제하시겠습니까?')"
+                          style="color:red; margin-left:5px;">
+                         <button type="button">삭제</button>
+                       </a>
+
+                   </span>
+                </span>
+
+              </p>
+              <p th:text="${reply.content}?: '내용 없음'">대댓글 내용</p>
+
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<h4>새 댓글 작성</h4>
+<form th:action="@{|/comments/create/${post.id}|}" method="post" th:object="${commentsForm}">
+  <div th:if="${#fields.hasErrors('content')}" style="color: red;">
+    <p th:errors="*{content}"></p>
+  </div>
+  <textarea th:field="*{content}" placeholder="댓글 내용" rows="3"></textarea>
+  <button type="submit">댓글 등록</button>
+</form>
+
+<script>
+  function toggleReplyForm(button) {
+      // 버튼 바로 다음에 있는 요소(reply-form)를 찾습니다.
+      const form = button.nextElementSibling;
+      if (form.style.display === 'none') {
+          form.style.display = 'block';
+      } else {
+          form.style.display = 'none';
+      }
+  }
+</script>
+
+</body>
+</html>
